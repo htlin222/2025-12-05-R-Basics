@@ -1,0 +1,127 @@
+---
+title: "R 語言統計工具入門"
+subtitle: "用 AI 學會做臨床研究統計"
+author: "林協霆"
+date: "2025/12/05"
+output: 
+  ioslides_presentation:
+    widescreen: true
+    css: styles.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.width = 8, fig.height = 5)
+# 如果有需要的套件，在這裡載入
+# library(ggplot2)
+# library(gtsummary)
+# library(dplyr)
+```
+
+## 歡迎來到 AI 時代的 R 語言學習
+
+- 📖 **完整教材**: https://htlin222.github.io/2025-12-05-R-Basics/
+- 📁 **GitHub**: https://github.com/htlin222/2025-12-05-R-Basics
+- 🎯 **目標**: 用 AI 輔助，快速上手 R 統計
+
+---
+
+## 今天的學習成果
+
+當課程結束時，你將能夠：
+
+✅ 使用 AI 協助寫 R 程式  
+✅ 製作論文級別的統計表格  
+✅ 創建專業的統計圖表  
+✅ 執行基本的統計檢定  
+✅ 建立可重複使用的分析範本  
+
+**重點：你不需要記住任何語法**
+
+---
+
+## 課程結構
+
+1. **第一部分** (40分鐘)：你今天就會寫程式
+2. **第二部分** (20分鐘)：讀取你的資料  
+3. **第三部分** (40分鐘)：產出你的 Table 1
+4. **第四部分** (40分鐘)：畫出論文等級的圖
+5. **第五部分** (30分鐘)：統計檢定
+6. **第六部分** (20分鐘)：整合與收尾
+
+---
+
+## 這堂課的核心理念
+
+### 傳統學習方式
+- 學語法 → 背函數 → 寫程式 → 解決問題
+
+### AI 輔助學習方式  
+- **描述問題 → AI 給程式 → 理解結果 → 解決問題**
+
+**你的工作是「問對問題」，不是「寫對程式」**
+
+---
+
+## 工具準備
+
+### 必備軟體
+- R (統計軟體)
+- IDE 選擇：
+  - **RStudio** - 傳統開發環境
+  - **Antigravity** - AI 輔助開發環境
+- AI 助手：ChatGPT 或 Claude
+
+### 今天會用到的 R 套件
+- `ggplot2` - 專業圖表
+- `gtsummary` - 統計表格
+- `dplyr` - 資料處理
+
+---
+
+## 示範：第一個 R 程式
+
+```{r demo-plot, echo=TRUE}
+# 建立範例資料
+heights <- c(10, 25, 15, 30, 20)
+categories <- c("A組", "B組", "C組", "D組", "E組")
+
+# 建立長條圖
+barplot(heights, 
+        names.arg = categories,
+        main = "各組數據比較",
+        ylab = "數值",
+        col = c("#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7"),
+        border = "white")
+```
+
+---
+
+## 實際操作時間
+
+### 現在就開始！
+
+1. 打開你的 RStudio / Antigravity
+2. 跟著線上教材：https://htlin222.github.io/2025-12-05-R-Basics/
+3. 遇到問題就問 AI
+4. 我會在這裡協助大家
+
+### 小提醒
+- 不要害怕犯錯
+- 錯誤訊息是學習的線索
+- AI 是你最好的學習夥伴
+
+---
+
+## Q&A 與總結
+
+### 今天學會的超能力
+
+✅ 把問題描述清楚，讓 AI 幫你寫程式  
+✅ 看懂 AI 給的程式碼大概在做什麼  
+✅ 當程式出錯，知道怎麼問 AI 修正  
+✅ 產出可以放進論文的表格和圖表  
+✅ 有一個可以重複使用的分析範本  
+
+### 聯絡資訊
+- 📧 [你的 email]
+- 📚 教材永久連結：https://htlin222.github.io/2025-12-05-R-Basics/

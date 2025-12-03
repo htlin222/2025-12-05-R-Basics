@@ -20,6 +20,9 @@
 - `appendix.qmd` - 附錄：給講師的備註
 - `patient_data.csv` - 示例數據
 - `_quarto.yml` - Quarto 配置文件
+- `presentation-complete.Rmd` - 完整課程簡報
+- `presentation-part1.Rmd` - 第一部分簡報示範
+- `styles.css` - 簡報樣式文件
 
 ## 構建說明
 
@@ -48,6 +51,26 @@ quarto preview
 ```
 
 這將啟動一個本地服務器來預覽書籍。
+
+### 使用簡報功能
+
+本項目包含 R Markdown 簡報文件，可以在 RStudio / Antigravity 的 Presentation 標籤中使用：
+
+1. **開啟簡報檔案**：
+   - `presentation-complete.Rmd` - 完整課程簡報
+   - `presentation-part1.Rmd` - 第一部分示範簡報
+
+2. **在 RStudio / Antigravity 中使用**：
+   - 開啟 `.Rmd` 檔案
+   - 點擊 **Knit** 按鈕
+   - 選擇 "Knit to HTML (ioslides)"
+   - 簡報會在 Presentation 標籤中顯示
+
+3. **簡報控制**：
+   - 使用方向鍵切換投影片
+   - 按 `f` 進入全螢幕模式
+   - 按 `w` 切換到黑白模式
+   - 按 `o` 顯示簡報概覽
 
 ## 課程目標
 

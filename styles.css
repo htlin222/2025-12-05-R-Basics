@@ -1,0 +1,59 @@
+/* Custom CSS for R Markdown presentations */
+
+/* Main slide styling */
+.title-slide {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+}
+
+/* Code blocks */
+pre {
+	background-color: #f8f9fa;
+	border: 1px solid #e9ecef;
+	border-radius: 4px;
+	padding: 15px;
+	font-size: 14px;
+}
+
+/* Highlighted text */
+strong {
+	color: #e74c3c;
+}
+
+/* Lists */
+ul li {
+	margin-bottom: 8px;
+}
+
+/* Blockquotes for prompts */
+blockquote {
+	background-color: #e8f4f8;
+	border-left: 4px solid #3498db;
+	padding: 15px;
+	margin: 15px 0;
+	font-style: italic;
+}
+
+/* Emoji and icons */
+.emoji {
+	font-size: 1.2em;
+}
+
+/* Task headers */
+h2 {
+	color: #2c3e50;
+	border-bottom: 2px solid #3498db;
+	padding-bottom: 5px;
+}
+
+/* Success indicators */
+.success {
+	color: #27ae60;
+	font-weight: bold;
+}
+
+/* Warning text */
+.warning {
+	color: #e67e22;
+	font-weight: bold;
+}
