@@ -1,25 +1,4 @@
-# 附錄：給講師的備註
-
-## 這個模式的關鍵成功因素
-
-- **確保網路順暢**：每個人都要能連到 ChatGPT 或 Claude
-- **不要搶答**：讓學員自己問 AI、自己看答案、自己嘗試
-- **你的角色是引導**：幫忙解決 AI 回答不清楚的地方、處理環境問題
-- **慶祝每一次成功**：「你的圖出來了嗎？太棒了！」
-- **錯誤是學習機會**：「來，把錯誤訊息貼給 AI，看它怎麼說」
-
-## 時間彈性處理
-
-- 如果大家進度快：讓他們自由探索、問更多問題
-- 如果大家進度慢：可以跳過部分「客製化」的任務，專注核心流程
-
-## 課前提醒學員
-
-- 請先註冊好 ChatGPT 或 Claude 帳號
-- 請先安裝好 R 和 RStudio
-- 帶著一個「你真的想分析的問題」來上課
-
-## 常見技術問題與解決方案
+# 附錄：常見技術問題與解決方案
 
 ### R 環境設置
 
@@ -99,17 +78,6 @@ my_data <- read.csv("patient_data.csv", fileEncoding = "UTF-8")
 - 重點是理解如何描述問題
 - AI 恢復後繼續用 AI 輔助方式
 
-### 如果學員進度差距很大
-- 快的學員：引導他們幫助其他人，或給予額外挑戰
-- 慢的學員：簡化任務，專注核心概念
-
-### 如果時間不夠
-優先順序：
-1. 第一部分（建立信心）
-2. 第二部分（資料讀取）
-3. 第三部分任務 10-11（基本 Table 1）
-4. 第四部分任務 15-16（基本圖表）
-
 ## 評估學習成效
 
 ### 課程結束前檢查清單
@@ -120,7 +88,348 @@ my_data <- read.csv("patient_data.csv", fileEncoding = "UTF-8")
 - [ ] 知道在遇到錯誤時如何求助（描述問題給 AI）
 - [ ] 理解 R 程式碼的基本結構（變數、函數、參數）
 
-### 後續追蹤建議
-- 一週後發送練習題
-- 一個月後收集使用狀況
-- 提供進階課程資訊
+
+## 2025 年臨床研究者的 R 語言最佳套件組合指南
+
+**Quarto 取代 R Markdown 成為新標準，gtsummary + flextable 主導臨床表格製作，而 ggsurvfit 正式取代 survminer 成為存活分析視覺化首選。** 本報告基於 Reddit r/rstats、GitHub 活躍度、CRAN 更新紀錄及 Posit 官方文件，為臨床醫學研究者彙整 2025 年 R 套件生態系統的最新發展與最佳實踐。
+
+## 資料視覺化：ggplot2 生態系的黃金組合
+
+臨床研究視覺化的核心仍是 **ggplot2**，但其擴展套件生態系已趨成熟。2025 年社群最推薦的組合是：
+
+**基礎組合：ggplot2 + ggpubr + ggsci + patchwork**
+
+| 套件 | GitHub Stars | 最後更新 | 核心功能 |
+|------|-------------|---------|---------|
+| **patchwork** | 2,600+ | 2024.09 | 圖表組合（取代 gridExtra） |
+| **ggpubr** | 活躍維護 | 2024 | 出版級統計圖表 + 顯著性標註 |
+| **ggsci** | 活躍維護 | 2024 | 醫學期刊配色（NEJM、Lancet、JAMA） |
+| **ggrepel** | 1,200+ | 2024.11 | 避免標籤重疊 |
+| **ggstatsplot** | 2,100+ | 2025.08 | 自動統計分析與視覺化整合 |
+
+**patchwork** 已成為圖表組合的事實標準，語法直覺：`p1 + p2` 水平排列、`p1 / p2` 垂直堆疊。**ggsci** 提供 `scale_color_nejm()`、`scale_fill_lancet()` 等函數，讓圖表配色直接符合期刊風格。
+
+### 臨床專用圖表的最佳選擇
+
+**存活曲線：ggsurvfit（2025 標準）**
+
+survminer 已逐漸被 **ggsurvfit** 取代。關鍵差異在於 ggsurvfit 回傳真正的 ggplot 物件，可完全客製化：
+
+```r
+library(ggsurvfit)
+survfit2(Surv(time, status) ~ group, data = df) |>
+  ggsurvfit() +
+  add_risktable() +
+  add_confidence_interval() +
+  scale_color_nejm()
+```
+
+ggsurvfit 由 pharmaverse 團隊開發，原生支援 CDISC ADaM 資料格式，風險表會自動對齊縮放——這是 survminer 長期被詬病的問題。
+
+- **ggsurvfit**: https://cran.r-project.org/package=ggsurvfit（2024 活躍更新）
+- **survminer**: 仍可用但開發較不活躍，建議新專案使用 ggsurvfit
+
+**森林圖：forestploter（2025 首選）**
+
+**forestploter** 將森林圖視為對齊的表格處理，提供最大的版面控制彈性。相較於 forestplot 套件的 grid 繪圖系統，forestploter 更容易產出期刊品質的圖表：
+
+- **forestploter**: https://cran.r-project.org/package=forestploter（2024 活躍）
+- **meta::forest()**: 適合標準 meta-analysis，內建 JAMA、RevMan5 版型
+- **ggforestplot**: 適合生物標記研究的垂直排列版型
+
+### 互動式圖表比較
+
+| 套件 | 基礎技術 | 最佳用途 | 授權 |
+|------|---------|---------|-----|
+| **plotly** | Plotly.js | ggplot2 快速轉互動（ggplotly） | 開源 |
+| **ggiraph** | htmlwidgets | 工具提示 + 連動圖表 | 開源 |
+| **echarts4r** | Apache ECharts | Shiny 儀表板 | 開源 |
+| **highcharter** | Highcharts | 商業級品質 | 商用需授權 |
+
+**plotly** 仍是最簡便的選擇——現有 ggplot2 程式碼只需包裹 `ggplotly()` 即可互動化。需要進階工具提示或圖表連動時，**ggiraph** 是更好的選擇。
+
+## 流程圖製作：CONSORT/STROBE 圖的最佳解決方案
+
+### 2025 年推薦：flowchart 套件
+
+**flowchart** 套件（2024 年 2 月首發，2024 年 11 月更新至 v0.6.0）採用 tidyverse 工作流程，可從資料框自動計算受試者人數：
+
+```r
+library(flowchart)
+data |>
+  as_fc(label = "Screened") |>
+  fc_filter(eligible == TRUE, label = "Eligible") |>
+  fc_split(group, label = "Randomized") |>
+  fc_draw()
+```
+
+**優勢**：數據變更時圖表自動更新，完全可重現。
+
+| 套件 | 用途 | CRAN | 最後更新 | 學習曲線 |
+|------|-----|------|---------|---------|
+| **flowchart** | CONSORT/STROBE | ✅ | 2024.11 | 低（tidyverse） |
+| **consort** | CONSORT 專用 | ✅ | 2024 | 低 |
+| **DiagrammeR** | 通用流程圖 | ✅ | 2024.02 | 中高 |
+| **ggflowchart** | 簡單流程圖 | ✅ | 2023.05 | 低 |
+
+**consort** 套件（https://github.com/adayim/consort）專為 CONSORT 聲明設計，適合需要嚴格遵循 CONSORT 格式的研究。**DiagrammeR** 則適合需要完全客製化的複雜流程圖，使用 Graphviz DOT 語言。
+
+## 表格製作：gtsummary + flextable 是黃金組合
+
+### Table 1（基線特徵表）
+
+**gtsummary** 已成為臨床研究 Table 1 的事實標準，取代了較舊的 tableone：
+
+| 功能 | gtsummary | tableone | table1 | arsenal |
+|-----|-----------|----------|--------|---------|
+| 臨床研究導向 | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
+| 自動變數偵測 | ✅ | ✅ | ❌ | ✅ |
+| 統計檢定 p 值 | ✅ add_p() | ✅ | 有限 | ✅ |
+| SMD 支援 | ✅ add_difference() | ⭐⭐⭐ | ❌ | ✅ |
+| Word 輸出 | ⭐⭐⭐ | ⭐⭐ | ❌ | ⭐⭐ |
+| 活躍開發 | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ |
+
+**gtsummary** 最後更新：2024 年 11 月 30 日（v2.4.0），由 Memorial Sloan Kettering 的 Daniel Sjoberg 開發維護。
+
+```r
+library(gtsummary)
+data |>
+  tbl_summary(
+    by = treatment,
+    include = c(age, sex, bmi),
+    statistic = list(all_continuous() ~ "{mean} ({sd})")
+  ) |>
+  add_p() |>
+  add_overall() |>
+  bold_labels()
+```
+
+### 輸出格式化
+
+**Word 輸出（期刊投稿必備）**：使用 **flextable**
+
+```r
+tbl_summary(data, by = group) |>
+  as_flex_table() |>
+  flextable::save_as_docx(path = "Table1.docx")
+```
+
+| 套件 | Word | HTML | PDF | 推薦場景 |
+|-----|------|------|-----|---------|
+| **flextable** | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | 期刊投稿（Word） |
+| **gt** | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | 網頁報告 |
+| **kableExtra** | ⭐ | ⭐⭐⭐ | ⭐⭐⭐ | LaTeX/PDF |
+| **huxtable** | ⭐⭐ | ⭐⭐ | ⭐⭐ | 多格式輸出 |
+
+**gt** 由 Posit 開發，HTML 輸出最美觀，但 Word 支援仍不如 flextable 穩定。
+
+## 環境與套件管理：2025 年標準工具鏈
+
+### 專案環境管理：renv（packrat 已棄用）
+
+**packrat 已被官方軟棄用**，renv 是唯一推薦選擇：
+
+```r
+renv::init()        # 初始化專案
+renv::snapshot()    # 儲存套件版本
+renv::restore()     # 還原環境
+```
+
+- **renv**: https://cran.r-project.org/package=renv（2024.10 更新）
+- 使用 JSON 格式的 `renv.lock` 記錄所有套件版本
+- 全域快取節省磁碟空間
+
+### 套件安裝：pak 優於 install.packages
+
+**pak** 提供平行下載、相依性解析、多來源支援：
+
+```r
+pak::pak("tidyverse")              # CRAN
+pak::pak("tidyverse/dplyr")        # GitHub
+pak::pak("bioc::Biobase")          # Bioconductor
+```
+
+| 功能 | pak | install.packages() |
+|-----|-----|-------------------|
+| 平行下載 | ✅ | ❌ |
+| 相依性衝突檢查 | ✅ | ❌ |
+| GitHub/Bioconductor | ✅ 原生支援 | ❌ 需額外套件 |
+| 系統相依性提示 | ✅ | ❌ |
+
+### R 版本管理：rig
+
+**rig**（https://github.com/r-lib/rig）是跨平台的 R 版本管理工具：
+
+```bash
+rig add release # 安裝最新穩定版
+rig add 4.3.2   # 安裝特定版本
+rig default 4.4 # 設定預設版本
+rig rstudio 4.3 # 以特定版本啟動 RStudio
+```
+
+macOS 使用者也可選擇 **RSwitch** 作為 GUI 替代方案。
+
+## 現代 R 語法：管道運算子與資料處理
+
+### 管道運算子：native |> 已成主流
+
+**2025 社群共識**：新程式碼優先使用 native pipe `|>`，magrittr `%>%` 保留給需要進階 placeholder 功能時使用。
+
+| 特性 | Native `|>` | Magrittr `%>%` |
+|-----|------------|----------------|
+| 效能 | 零額外開銷 | 微小開銷 |
+| Placeholder | `_`（僅限具名參數） | `.`（彈性） |
+| 相依性 | 無（R 4.1+） | 需安裝 magrittr |
+| 多次使用 placeholder | ❌ | ✅ |
+
+```r
+# Native pipe（推薦）
+df |> filter(age > 18) |> summarise(mean_bmi = mean(bmi))
+
+# 需要 magrittr 的情況
+df %>% {paste(.$name, .$id)}  # placeholder 多次使用
+```
+
+### data.table vs dplyr vs polars
+
+| 資料規模 | 推薦工具 |
+|---------|---------|
+| < 100 萬列 | dplyr |
+| 100 萬 - 1000 萬列 | dtplyr 或 data.table |
+| > 1000 萬列或記憶體不足 | data.table 或 polars |
+
+**polars**（https://rpolars.github.io）正在 R 社群快速成長，效能可達 dplyr 的 **15-25 倍**，但尚未上架 CRAN。**dtplyr** 讓你用 dplyr 語法獲得 data.table 效能。
+
+### Tidyverse 核心套件評估
+
+| 套件 | 狀態 | 說明 |
+|-----|------|-----|
+| ggplot2 | ⭐ 必備 | 視覺化唯一標準 |
+| dplyr | ⭐ 必備 | 資料處理核心 |
+| tidyr | ⭐ 必備 | pivot_longer/wider 無可取代 |
+| lubridate | ⭐ 必備 | 日期處理（已納入 tidyverse 核心） |
+| glue | ⭐ 強烈推薦 | 字串插值，比 paste() 直覺 |
+| stringr | ✅ 有用 | 一致的字串處理 API |
+| purrr | ⚠️ 可選 | R 4.1+ 匿名函數 `\(x)` 減少需求 |
+| forcats | ⚠️ 可選 | 因子處理，非必要 |
+
+## 非 RStudio 開發環境設定
+
+### VS Code or Antigravity 完整設定
+
+**必要元件**：
+
+1. **vscode-R 擴展**（REditorSupport）：VS Code 市集安裝
+2. **languageserver**：`install.packages("languageserver")`
+3. **radian**：`pip install radian`（增強型 R 終端機）
+4. **httpgd**：`devtools::install_github("nx10/httpgd")`（⚠️ 2025.04 從 CRAN 移除）
+
+**settings.json 設定**：
+
+```json
+{
+	"r.rterm.mac": "/path/to/radian",
+	"r.bracketedPaste": true,
+	"r.plot.useHttpgd": true,
+	"r.session.levelOfObjectDetail": "Detailed"
+}
+```
+
+### Neovim 設定（R.nvim）
+
+**Nvim-R 已被 R.nvim 取代**，Neovim 使用者應遷移：
+
+```lua
+-- lazy.nvim 設定
+require("lazy").setup({
+	{ "R-nvim/R.nvim", lazy = false },
+	"R-nvim/cmp-r",
+	{
+		"nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "r", "markdown", "rnoweb" },
+				highlight = { enable = true },
+			})
+		end,
+	},
+})
+```
+
+### Positron IDE：Posit 的新選擇
+
+**Positron**（https://posit.co/products/open-source/positron/）於 2025 年 8 月釋出穩定版，基於 VS Code 但專為資料科學優化：
+
+- R 和 Python 無需安裝擴展即可使用
+- 內建資料框檢視器（類似 RStudio 的 View()）
+- Posit 官方開發維護
+
+**適合場景**：R + Python 多語言專案、想要 RStudio 功能但偏好 VS Code 介面者。
+
+## 實用工具套件：2025 必裝清單
+
+### 資料清理
+
+| 套件 | 功能 | 最後更新 |
+|-----|------|---------|
+| **janitor** | clean_names()、tabyl()、get_dupes() | 2024.12 |
+| **skimr** | skim() 超越 summary() 的資料摘要 | 活躍 |
+| **tidylog** | dplyr 操作即時回饋 | 活躍 |
+
+### 檔案操作
+
+- **here**：可重現的路徑管理，`here("data", "clinical.csv")`
+- **fs**：跨平台檔案操作，取代 base R 的 file.* 函數
+
+### 報告生成：Quarto 是 2025 新標準
+
+**Posit 官方立場**：R Markdown 不會棄用但新功能只加入 Quarto。
+
+| 功能 | Quarto | R Markdown |
+|-----|--------|-----------|
+| 多語言支援 | R、Python、Julia | 以 R 為主 |
+| 期刊模板 | 內建多種期刊格式 | 需額外套件 |
+| 交叉引用 | 內建 | 需 bookdown |
+| 設定檔 | 單一 _quarto.yml | 多個設定檔 |
+
+**建議**：新專案使用 Quarto，現有 R Markdown 專案無需急著遷移。
+
+### 臨床研究專用資源
+
+- **CRAN Task View: Clinical Trials**: https://cran.r-project.org/view=ClinicalTrials
+- **Pharmaverse**（製藥業標準）：admiral、rtables、teal
+- **R Consortium Clinical Reporting**: https://rconsortium.github.io/rtrs-wg/
+
+## 總結：2025 年臨床研究者推薦套件組合
+
+```r
+# 環境管理
+install.packages(c("renv", "pak"))
+
+# 核心工具
+install.packages(c("tidyverse", "here", "fs", "janitor", "skimr", "rio"))
+
+# 臨床表格
+install.packages(c("gtsummary", "flextable", "gt"))
+
+# 視覺化
+install.packages(c("ggpubr", "ggsci", "patchwork", "ggsurvfit", "forestploter"))
+
+# 流程圖
+install.packages(c("flowchart", "consort"))
+
+# 報告
+install.packages("quarto")
+```
+
+### 已過時或不建議使用的套件
+
+| 套件 | 狀態 | 替代方案 |
+|-----|------|---------|
+| **packrat** | 軟棄用 | renv |
+| **survminer** | 開發較不活躍 | ggsurvfit |
+| **plyr** | 已被取代 | dplyr + purrr |
+| **reshape2** | 已被取代 | tidyr |
+| **drake** | 已被取代 | targets |
+| **Nvim-R** | Neovim 用戶應遷移 | R.nvim |
+
