@@ -33,6 +33,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Keep GitHub Actions workflows
+!.github/
+
 # Output files (optional - remove if you want to track them)
 *.html
 *.pdf
