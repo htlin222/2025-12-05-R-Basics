@@ -4,9 +4,11 @@
 
 ## 在線閱讀
 
-📖 **書籍網址**: https://htlin222.github.io/2025-12-05-R-Basics/
+📖 **書籍網址**: https://htlin222.github.io/learn-r-with-ai/
 
-📁 **GitHub 倉庫**: https://github.com/htlin222/2025-12-05-R-Basics
+📁 **GitHub 倉庫**: https://github.com/htlin222/learn-r-with-ai
+
+⬇️ **下載程式碼**: [點此下載](https://github.com/htlin222/learn-r-with-ai/archive/refs/heads/main.zip)
 
 ## 項目結構
 
@@ -74,13 +76,33 @@ quarto preview
 
 ## 課程目標
 
-本課程的目標是教授醫護人員如何：
+今天結束時，你將能夠：
 
-- 使用 AI（ChatGPT/Claude）輔助寫 R 程式
-- 產出論文級別的統計表格（Table 1）
-- 創建專業的統計圖表
-- 執行基本的統計檢定
-- 建立可重複使用的分析範本
+- ✅ 把問題描述清楚，讓 AI 幫你寫程式
+- ✅ 看懂 AI 給的程式碼大概在做什麼
+- ✅ 當程式出錯，知道怎麼問 AI 修正
+- ✅ 產出可以放進論文的表格和圖表
+- ✅ 有一個可以重複使用的分析範本
+
+## 這堂課的玩法
+
+1. 我給你一個「任務」
+2. 你把任務描述貼給 AI（ChatGPT / Claude）
+3. AI 給你程式碼
+4. 你貼到 RStudio / Antigravity 執行
+5. 我們一起看結果、理解發生了什麼
+
+**記住：你的工作是「問對問題」，不是「寫對程式」。**
+
+## 資料說明
+
+本課程使用 `patient_data.csv` 檔案，包含以下欄位：
+
+- `patient_id`：病人編號
+- `treatment`：治療組別（A 或 B）
+- `age`：年齡
+- `gender`：性別（M 或 F）
+- `los`：住院天數（length of stay）
 
 ## 聯繫信息
 
