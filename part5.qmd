@@ -198,3 +198,239 @@ if (chisq_result$p.value < 0.05) {
   print("結論：兩組的性別分佈無顯著差異")
 }
 ```
+
+## 任務 24：存活分析 (Survival Analysis)
+
+在臨床研究中，我們經常需要分析「時間到事件」的資料，例如：
+
+- 病人從診斷到死亡的時間
+- 從治療開始到疾病復發的時間
+- 從手術到再住院的時間
+
+這類分析稱為 **存活分析 (Survival Analysis)**，是臨床研究中非常重要的統計方法。
+
+### 存活分析的特殊之處
+
+存活分析資料有一個特點：**設限 (Censoring)**
+
+- 有些病人在研究結束時還活著（我們不知道他們最終會活多久）
+- 有些病人中途失聯（lost to follow-up）
+- 這些「不完整」的觀察值不能直接丟掉，需要特殊處理
+
+📋 **複製這段話，貼給 AI：**
+
+> 我有一個存活分析的資料集 `patient_data_for_survival.csv`，包含：
+>
+> - patient_id：病人編號
+> - treatment：治療組別（Drug_A vs Drug_B）
+> - age：年齡
+> - gender：性別
+> - stage：癌症期別（I-IV）
+> - time：追蹤時間（月）
+> - status：事件狀態（1=死亡，0=存活/設限）
+>
+> 請幫我：
+>
+> 1. 用 survival 套件做 Kaplan-Meier 存活曲線
+> 2. 比較兩個治療組的存活率有沒有差異（log-rank test）
+> 3. 畫出漂亮的存活曲線圖
+
+### 讀取存活分析資料
+
+```{r}
+#| label: survival-load-data
+#| echo: true
+#| message: false
+#| warning: false
+
+# 讀取存活分析資料
+survival_data <- read.csv("patient_data_for_survival.csv")
+
+# 檢視資料結構
+str(survival_data)
+
+# 查看前幾筆
+head(survival_data)
+
+# 確認事件分佈
+table(survival_data$treatment, survival_data$status)
+```
+
+### Kaplan-Meier 存活分析
+
+```{r}
+#| label: survival-km
+#| echo: true
+#| message: false
+#| warning: false
+
+# 安裝並載入必要套件
+if (!require(survival, quietly = TRUE)) {
+  install.packages("survival", repos = "https://cloud.r-project.org/")
+}
+if (!require(survminer, quietly = TRUE)) {
+  install.packages("survminer", repos = "https://cloud.r-project.org/")
+}
+
+library(survival)
+library(survminer)
+
+# 建立存活物件
+# Surv(time, status) 會建立一個存活時間物件
+# time = 追蹤時間, status = 事件是否發生 (1=是, 0=否/設限)
+surv_obj <- Surv(time = survival_data$time, event = survival_data$status)
+
+# 看看存活物件長什麼樣子
+head(surv_obj, 10)
+# 注意：數字後面的 "+" 表示該觀察值是 censored（設限）
+```
+
+### 繪製 Kaplan-Meier 存活曲線
+
+```{r}
+#| label: survival-km-plot
+#| echo: true
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-height: 7
+
+# 依照治療組別做 Kaplan-Meier 分析
+km_fit <- survfit(Surv(time, status) ~ treatment, data = survival_data)
+
+# 查看摘要（6個月、12個月、24個月的存活率）
+summary(km_fit, times = c(6, 12, 24))
+
+# 繪製存活曲線（使用 survminer 套件的 ggsurvplot）
+ggsurvplot(
+  km_fit,
+  data = survival_data,
+  pval = TRUE,                    # 顯示 log-rank test p-value
+  conf.int = TRUE,                # 顯示 95% 信賴區間
+  risk.table = TRUE,              # 顯示風險表（各時間點的人數）
+  risk.table.col = "strata",      # 風險表顏色依組別
+  legend.title = "治療組別",
+  legend.labs = c("Drug A", "Drug B"),
+  xlab = "追蹤時間（月）",
+  ylab = "存活機率",
+  title = "Kaplan-Meier 存活曲線：Drug A vs Drug B",
+  palette = c("#E7B800", "#2E9FDF"),  # 自訂顏色
+  ggtheme = theme_bw()            # 使用簡潔主題
+)
+```
+
+### Log-Rank Test：比較兩組存活率
+
+```{r}
+#| label: survival-logrank
+#| echo: true
+
+# Log-rank test（最常用的存活曲線比較方法）
+logrank_test <- survdiff(Surv(time, status) ~ treatment, data = survival_data)
+print(logrank_test)
+
+# 提取 p-value
+logrank_pvalue <- 1 - pchisq(logrank_test$chisq, length(logrank_test$n) - 1)
+print(paste("Log-rank test p-value:", round(logrank_pvalue, 4)))
+
+# 解讀結果
+if (logrank_pvalue < 0.05) {
+  print("結論：兩組的存活曲線有顯著差異 (p < 0.05)")
+} else {
+  print("結論：兩組的存活曲線無顯著差異 (p >= 0.05)")
+}
+```
+
+### 計算中位存活時間
+
+```{r}
+#| label: survival-median
+#| echo: true
+
+# 計算各組的中位存活時間
+print("各組中位存活時間（月）：")
+print(km_fit)
+
+# 更詳細的摘要
+summary(km_fit)$table
+```
+
+### 進階：Cox 比例風險模型
+
+📋 **複製這段話，貼給 AI：**
+
+> 我想要做更進階的存活分析，考慮多個變數（治療、年齡、性別、期別）對存活的影響。請幫我用 Cox proportional hazards model 分析，並解釋 Hazard Ratio 的意義。
+
+```{r}
+#| label: survival-cox
+#| echo: true
+#| message: false
+
+# Cox 比例風險模型
+# 可以同時考慮多個變數對存活的影響
+cox_model <- coxph(
+  Surv(time, status) ~ treatment + age + gender + stage,
+  data = survival_data
+)
+
+# 查看模型結果
+summary(cox_model)
+
+# 整理成漂亮的表格
+if (!require(gtsummary, quietly = TRUE)) {
+  install.packages("gtsummary", repos = "https://cloud.r-project.org/")
+}
+library(gtsummary)
+
+cox_model %>%
+  tbl_regression(
+    exponentiate = TRUE,  # 將係數轉換為 Hazard Ratio
+    label = list(
+      treatment ~ "治療組別",
+      age ~ "年齡",
+      gender ~ "性別",
+      stage ~ "癌症期別"
+    )
+  ) %>%
+  bold_p(t = 0.05) %>%
+  modify_header(label = "**變數**") %>%
+  modify_caption("**Cox 比例風險模型結果**")
+```
+
+### 存活分析結果解讀
+
+```{r}
+#| label: survival-interpretation
+#| echo: true
+
+# 提取 Hazard Ratio 和信賴區間
+cox_summary <- summary(cox_model)
+hr <- exp(cox_summary$coefficients[, "coef"])
+ci_lower <- exp(cox_summary$coefficients[, "coef"] - 1.96 * cox_summary$coefficients[, "se(coef)"])
+ci_upper <- exp(cox_summary$coefficients[, "coef"] + 1.96 * cox_summary$coefficients[, "se(coef)"])
+
+# 整理成表格
+hr_table <- data.frame(
+  Variable = names(hr),
+  HR = round(hr, 2),
+  CI_Lower = round(ci_lower, 2),
+  CI_Upper = round(ci_upper, 2),
+  p_value = round(cox_summary$coefficients[, "Pr(>|z|)"], 4)
+)
+print(hr_table)
+
+cat("\n=== Hazard Ratio 解讀指南 ===\n")
+cat("HR = 1：該因素對存活沒有影響\n")
+cat("HR > 1：該因素會增加死亡風險（例如 HR=2 表示風險增加一倍）\n")
+cat("HR < 1：該因素會降低死亡風險（例如 HR=0.5 表示風險減半）\n")
+```
+
+### 小結：存活分析的關鍵概念
+
+| 概念 | 說明 |
+|------|------|
+| **Censoring（設限）** | 觀察結束時事件尚未發生（例如病人還活著） |
+| **Kaplan-Meier** | 估計存活機率隨時間變化的曲線 |
+| **Log-rank test** | 比較兩組或多組存活曲線是否有差異 |
+| **Hazard Ratio (HR)** | 相對風險，HR=2 表示風險是對照組的 2 倍 |
+| **Cox model** | 可同時考慮多個變數對存活的影響 |

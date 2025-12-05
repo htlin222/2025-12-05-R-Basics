@@ -1,0 +1,2724 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  chinese,
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,provide=*]{babel}
+\else
+\usepackage[bidi=default,provide=*]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{anyfontsize}
+\usepackage{multirow}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{目錄}
+\else
+  \newcommand\contentsname{目錄}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{圖目錄}
+\else
+  \newcommand\listfigurename{圖目錄}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{表目錄}
+\else
+  \newcommand\listtablename{表目錄}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{圖}
+\else
+  \newcommand\figurename{圖}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{表}
+\else
+  \newcommand\tablename{表}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{列表}
+\newcommand*\listoflistings{\listof{codelisting}{列表目錄}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={R 語言統計工具入門：用 AI 學會做臨床研究統計},
+  pdfauthor={林協霆},
+  pdflang={zh-TW},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{R 語言統計工具入門：用 AI 學會做臨床研究統計}
+\author{林協霆}
+\date{2025-12-05}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{目錄}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+
+\bookmarksetup{startatroot}
+
+\chapter*{前言}\label{ux524dux8a00}
+\addcontentsline{toc}{chapter}{前言}
+
+\markboth{前言}{前言}
+
+歡迎來到「R 語言統計工具入門：用 AI 學會做臨床研究統計」！
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://htlin222.github.io/2025-12-05-R-Basics/}{本書連結}
+\item
+  \href{https://github.com/htlin222/2025-12-05-R-Basics}{Github Repo}
+  以及
+  \href{https://github.com/htlin222/2025-12-05-R-Basics/archive/refs/heads/main.zip}{下載程式碼的連結}
+\end{itemize}
+
+\section*{課程目標}\label{ux8ab2ux7a0bux76eeux6a19}
+\addcontentsline{toc}{section}{課程目標}
+
+\markright{課程目標}
+
+今天結束時，你將能夠：
+
+\begin{itemize}
+\tightlist
+\item
+  ✅ 把問題描述清楚，讓 AI 幫你寫程式
+\item
+  ✅ 看懂 AI 給的程式碼大概在做什麼
+\item
+  ✅ 當程式出錯，知道怎麼問 AI 修正
+\item
+  ✅ 產出可以放進論文的表格和圖表
+\item
+  ✅ 有一個可以重複使用的分析範本
+\end{itemize}
+
+\section*{這堂課的玩法}\label{ux9019ux5802ux8ab2ux7684ux73a9ux6cd5}
+\addcontentsline{toc}{section}{這堂課的玩法}
+
+\markright{這堂課的玩法}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  我給你一個「任務」
+\item
+  你把任務描述貼給 AI（ChatGPT / Claude）
+\item
+  AI 給你程式碼
+\item
+  你貼到 RStudio / Antigravity 執行
+\item
+  我們一起看結果、理解發生了什麼
+\end{enumerate}
+
+\textbf{記住：你的工作是「問對問題」，不是「寫對程式」。}
+
+\section*{資料說明}\label{ux8cc7ux6599ux8aaaux660e}
+\addcontentsline{toc}{section}{資料說明}
+
+\markright{資料說明}
+
+本課程使用 \texttt{patient\_data.csv} 檔案，包含以下欄位：
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{patient\_id}：病人編號
+\item
+  \texttt{treatment}：治療組別（A 或 B）
+\item
+  \texttt{age}：年齡
+\item
+  \texttt{gender}：性別（M 或 F）
+\item
+  \texttt{los}：住院天數（length of stay）
+\end{itemize}
+
+這份資料將貫穿整個課程，讓你能夠實際操作並產出真實可用的統計分析結果。
+
+\bookmarksetup{startatroot}
+
+\chapter{第一部分：你今天就會寫程式}\label{ux7b2cux4e00ux90e8ux5206ux4f60ux4ecaux5929ux5c31ux6703ux5bebux7a0bux5f0f}
+
+本部分預計時間：40 分鐘
+
+\section{任務
+1：你的第一個程式}\label{ux4efbux52d9-1ux4f60ux7684ux7b2cux4e00ux500bux7a0bux5f0f}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我完全沒學過 R 語言。請給我一段最簡單的 R 程式碼，讓我可以畫出一個有 5
+根柱子的長條圖，每根柱子的高度分別是
+10、25、15、30、20。請給我可以直接複製貼上執行的程式碼。
+\end{quote}
+
+\subsection{範例程式碼}\label{ux7bc4ux4f8bux7a0bux5f0fux78bc}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 建立資料}
+\NormalTok{heights }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{20}\NormalTok{)}
+\NormalTok{categories }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"C"}\NormalTok{, }\StringTok{"D"}\NormalTok{, }\StringTok{"E"}\NormalTok{)}
+
+\CommentTok{\# 畫長條圖}
+\FunctionTok{barplot}\NormalTok{(heights, }
+        \AttributeTok{names.arg =}\NormalTok{ categories,}
+        \AttributeTok{main =} \StringTok{"我的第一個 R 圖表"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"類別"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"高度"}\NormalTok{,}
+        \AttributeTok{col =} \StringTok{"steelblue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part1_files/figure-pdf/first-plot-1.pdf}}
+
+⏱️ 3 分鐘後，你應該會在 RStudio / Antigravity 看到一張圖。
+
+\section{任務
+2：發生了什麼事？}\label{ux4efbux52d9-2ux767cux751fux4e86ux4ec0ux9ebcux4e8b}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+請用「教小學生」的方式，解釋你剛剛給我的那段 R
+程式碼。每一行在做什麼？什麼是「變數」？什麼是「函數」？
+\end{quote}
+
+\subsection{程式碼解釋}\label{ux7a0bux5f0fux78bcux89e3ux91cb}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{變數}：就像一個盒子，可以裝東西。\texttt{heights} 裝了 5
+  個數字。
+\item
+  \textbf{函數}：就像一個機器，你給它材料，它產出結果。\texttt{barplot()}
+  就是畫圖的機器。
+\item
+  \textbf{參數}：就像機器的設定，告訴機器怎麼運作。
+\end{itemize}
+
+\section{任務
+3：當程式出錯時}\label{ux4efbux52d9-3ux7576ux7a0bux5f0fux51faux932fux6642}
+
+📋 \textbf{如果剛剛有錯誤訊息，複製錯誤訊息，加上這段話貼給 AI：}
+
+\begin{quote}
+我在 RStudio / Antigravity 執行你給的程式碼，出現這個錯誤：
+【貼上錯誤訊息】 請告訴我這是什麼意思，以及怎麼修正。
+\end{quote}
+
+\subsection{常見錯誤範例}\label{ux5e38ux898bux932fux8aa4ux7bc4ux4f8b}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 這會產生錯誤（故意的）}
+\FunctionTok{barplot}\NormalTok{(height)  }\CommentTok{\# 變數名稱打錯了}
+\end{Highlighting}
+\end{Shaded}
+
+🎯 記住：錯誤訊息是線索，不是你的錯。
+
+\section{任務 4：認識套件}\label{ux4efbux52d9-4ux8a8dux8b58ux5957ux4ef6}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+R 語言裡面的「套件」(package) 是什麼？可以用「手機
+App」來比喻嗎？另外，\texttt{library()} 這個指令是在做什麼？
+\end{quote}
+
+\subsection{套件說明}\label{ux5957ux4ef6ux8aaaux660e}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{套件 = 手機 App}：提供額外功能
+\item
+  \textbf{安裝套件 = 下載 App}：\texttt{install.packages("套件名稱")}
+\item
+  \textbf{載入套件 = 開啟 App}：\texttt{library(套件名稱)}
+\end{itemize}
+
+\section{任務
+5：安裝我們需要的工具}\label{ux4efbux52d9-5ux5b89ux88ddux6211ux5011ux9700ux8981ux7684ux5de5ux5177}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我要在 R 裡面使用 ggplot2、gtsummary、dplyr
+這三個套件。請給我安裝這些套件的程式碼，以及安裝完之後怎麼載入它們。
+\end{quote}
+
+\subsection{安裝與載入套件}\label{ux5b89ux88ddux8207ux8f09ux5165ux5957ux4ef6}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 安裝套件（只需執行一次）}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"gtsummary"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{))}
+
+\CommentTok{\# 載入套件（每次使用前都要執行）}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(gtsummary)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+⏱️ 安裝可能需要 2-3 分鐘，這是正常的。
+
+\bookmarksetup{startatroot}
+
+\chapter{第二部分：讀取你的資料}\label{ux7b2cux4e8cux90e8ux5206ux8b80ux53d6ux4f60ux7684ux8cc7ux6599}
+
+本部分預計時間：20 分鐘
+
+\section{任務 6：讀取 CSV
+檔案}\label{ux4efbux52d9-6ux8b80ux53d6-csv-ux6a94ux6848}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我有一個 CSV 檔案叫做 patient\_data.csv，放在我的桌面。我正在用 RStudio
+/ Antigravity。請告訴我：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  怎麼讀取這個檔案到 R 裡面
+\item
+  怎麼看前幾筆資料確認有讀成功
+\end{enumerate}
+
+請給我可以直接執行的程式碼。
+\end{quote}
+
+\subsection{讀取資料}\label{ux8b80ux53d6ux8cc7ux6599}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 讀取 CSV 檔案}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data.csv"}\NormalTok{)}
+
+\CommentTok{\# 顯示前 6 筆資料}
+\FunctionTok{head}\NormalTok{(my\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  patient_id treatment age gender los
+1          1         A  45      M   5
+2          2         B  52      F   8
+3          3         A  38      M   4
+4          4         B  61      F  12
+5          5         A  55      F   6
+6          6         B  42      M   9
+\end{verbatim}
+
+\section{任務
+7：認識你的資料}\label{ux4efbux52d9-7ux8a8dux8b58ux4f60ux7684ux8cc7ux6599}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我已經把資料讀進來了，存在一個叫做 \texttt{my\_data}
+的變數。請給我程式碼，讓我可以：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  看這個資料有幾列幾欄
+\item
+  看每個欄位的基本統計（平均、最大、最小等）
+\item
+  看每個欄位是什麼資料類型（數字、文字等）
+\end{enumerate}
+\end{quote}
+
+\subsection{探索資料}\label{ux63a2ux7d22ux8cc7ux6599}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 查看資料維度（幾列幾欄）}
+\FunctionTok{dim}\NormalTok{(my\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 100   5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 查看資料結構}
+\FunctionTok{str}\NormalTok{(my\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   100 obs. of  5 variables:
+ $ patient_id: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ treatment : chr  "A" "B" "A" "B" ...
+ $ age       : int  45 52 38 61 55 42 49 58 36 64 ...
+ $ gender    : chr  "M" "F" "M" "F" ...
+ $ los       : int  5 8 4 12 6 9 5 11 3 14 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 查看基本統計摘要}
+\FunctionTok{summary}\NormalTok{(my\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+   patient_id      treatment              age           gender         
+ Min.   :  1.00   Length:100         Min.   :35.00   Length:100        
+ 1st Qu.: 25.75   Class :character   1st Qu.:41.00   Class :character  
+ Median : 50.50   Mode  :character   Median :49.00   Mode  :character  
+ Mean   : 50.50                      Mean   :48.77                     
+ 3rd Qu.: 75.25                      3rd Qu.:56.00                     
+ Max.   :100.00                      Max.   :64.00                     
+      los       
+ Min.   : 3.00  
+ 1st Qu.: 5.00  
+ Median : 7.50  
+ Mean   : 8.07  
+ 3rd Qu.:11.00  
+ Max.   :17.00  
+\end{verbatim}
+
+\section{任務
+8：理解你看到的東西}\label{ux4efbux52d9-8ux7406ux89e3ux4f60ux770bux5230ux7684ux6771ux897f}
+
+📋 \textbf{把 \texttt{summary(my\_data)} 的輸出複製起來，加上這段話貼給
+AI：}
+
+\begin{quote}
+這是我的資料摘要，請幫我解讀每個欄位的意義，以及有沒有什麼需要注意的地方（例如遺漏值、異常值）：
+【貼上 summary 輸出】
+\end{quote}
+
+\subsection{資料摘要解讀}\label{ux8cc7ux6599ux6458ux8981ux89e3ux8b80}
+
+從 \texttt{summary()} 的輸出，我們可以看到：
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{patient\_id}: 病人編號，從 1 到 100
+\item
+  \textbf{treatment}: 治療組別，A 組和 B 組各 50 人
+\item
+  \textbf{age}: 年齡分佈，平均約 47 歲
+\item
+  \textbf{gender}: 性別分佈，男女各半
+\item
+  \textbf{los}: 住院天數，平均約 8 天，B 組似乎住院天數較長
+\end{itemize}
+
+\subsection{檢查遺漏值}\label{ux6aa2ux67e5ux907aux6f0fux503c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 檢查是否有遺漏值}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(my\_data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 查看每個欄位的遺漏值數量}
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(my\_data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+patient_id  treatment        age     gender        los 
+         0          0          0          0          0 
+\end{verbatim}
+
+\bookmarksetup{startatroot}
+
+\chapter{第三部分：產出你的 Table
+1}\label{ux7b2cux4e09ux90e8ux5206ux7522ux51faux4f60ux7684-table-1}
+
+本部分預計時間：40 分鐘
+
+\section{任務 9：Table 1
+是什麼？}\label{ux4efbux52d9-9table-1-ux662fux4ec0ux9ebc}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+在醫學論文裡面，Table 1
+通常是什麼？它的目的是什麼？裡面通常會放哪些東西？
+\end{quote}
+
+\subsection{Table 1 說明}\label{table-1-ux8aaaux660e}
+
+在醫學論文中，Table 1 通常是「基線特徵表」（Baseline Characteristics
+Table），用來：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  展示研究對象的基本特徵
+\item
+  比較不同組別的基線資料
+\item
+  讓讀者判斷組別是否平衡
+\item
+  提供研究族群的整體概況
+\end{enumerate}
+
+\section{任務 10：你的第一個 Table
+1}\label{ux4efbux52d9-10ux4f60ux7684ux7b2cux4e00ux500b-table-1}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我有一個 R 資料框叫做 \texttt{my\_data}，裡面有這些欄位：
+
+\begin{itemize}
+\tightlist
+\item
+  treatment：治療組別（A 或 B）
+\item
+  age：年齡
+\item
+  gender：性別（M 或 F）
+\item
+  los：住院天數
+\end{itemize}
+
+請用 gtsummary 套件幫我做一個 Table 1，依照 treatment
+分組，顯示其他變數的描述性統計。請給我可以直接執行的程式碼。
+\end{quote}
+
+\subsection{建立 Table 1}\label{ux5efaux7acb-table-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(gtsummary)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# 讀取資料}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data.csv"}\NormalTok{)}
+
+\CommentTok{\# 建立基本的 Table 1}
+\NormalTok{table1 }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(treatment, age, gender, los) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =}\NormalTok{ treatment,}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+      \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+      \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{    )}
+\NormalTok{  )}
+
+\NormalTok{table1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcc}
+\toprule
+\textbf{Characteristic} & \textbf{A}  N = 50\textsuperscript{\textit{1}} & \textbf{B}  N = 50\textsuperscript{\textit{1}} \\ 
+\midrule\addlinespace[2.5pt]
+age & 42 (4) & 56 (5) \\ 
+gender &  &  \\ 
+    F & 23 (46\%) & 27 (54\%) \\ 
+    M & 27 (54\%) & 23 (46\%) \\ 
+los & 5 (1) & 12 (2) \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\end{minipage}
+\end{table}
+
+\section{任務
+11：加上統計檢定}\label{ux4efbux52d9-11ux52a0ux4e0aux7d71ux8a08ux6aa2ux5b9a}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+剛剛的 Table 1 很棒。請幫我加上
+p-value，讓我可以看出兩組之間有沒有統計顯著差異。
+\end{quote}
+
+\subsection{加入 p-value}\label{ux52a0ux5165-p-value}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 建立含 p{-}value 的 Table 1}
+\NormalTok{table1\_with\_p }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(treatment, age, gender, los) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =}\NormalTok{ treatment,}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+      \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+      \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{()}
+
+\NormalTok{table1\_with\_p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{A}  N = 50\textsuperscript{\textit{1}} & \textbf{B}  N = 50\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+age & 42 (4) & 56 (5) & <0.001 \\ 
+gender &  &  & 0.4 \\ 
+    F & 23 (46\%) & 27 (54\%) &  \\ 
+    M & 27 (54\%) & 23 (46\%) &  \\ 
+los & 5 (1) & 12 (2) & <0.001 \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Wilcoxon rank sum test; Pearson's Chi-squared test\\
+\end{minipage}
+\end{table}
+
+\section{任務 12：看懂 gtsummary
+的選擇}\label{ux4efbux52d9-12ux770bux61c2-gtsummary-ux7684ux9078ux64c7}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+gtsummary 在計算 p-value
+的時候，是怎麼決定要用什麼統計方法的？例如，什麼時候用
+t-test、什麼時候用 Wilcoxon、什麼時候用卡方檢定？
+\end{quote}
+
+\subsection{gtsummary
+的統計方法選擇}\label{gtsummary-ux7684ux7d71ux8a08ux65b9ux6cd5ux9078ux64c7}
+
+gtsummary 會根據資料類型自動選擇適當的統計檢定：
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{連續變數}：預設使用 Wilcoxon rank-sum test（無母數檢定）
+\item
+  \textbf{類別變數}：使用 Chi-square test（卡方檢定）或 Fisher's exact
+  test（當樣本數小時）
+\end{itemize}
+
+你可以自訂統計方法：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 自訂統計檢定方法}
+\NormalTok{table1\_custom }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(treatment, age, gender, los) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =}\NormalTok{ treatment,}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+      \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+      \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{(}
+    \AttributeTok{test =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{      age }\SpecialCharTok{\textasciitilde{}} \StringTok{"t.test"}\NormalTok{,        }\CommentTok{\# 使用 t{-}test}
+\NormalTok{      los }\SpecialCharTok{\textasciitilde{}} \StringTok{"wilcox.test"}\NormalTok{,   }\CommentTok{\# 使用 Wilcoxon test}
+\NormalTok{      gender }\SpecialCharTok{\textasciitilde{}} \StringTok{"chisq.test"}  \CommentTok{\# 使用卡方檢定}
+\NormalTok{    )}
+\NormalTok{  )}
+
+\NormalTok{table1\_custom}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{A}  N = 50\textsuperscript{\textit{1}} & \textbf{B}  N = 50\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+age & 42 (4) & 56 (5) & <0.001 \\ 
+gender &  &  & 0.5 \\ 
+    F & 23 (46\%) & 27 (54\%) &  \\ 
+    M & 27 (54\%) & 23 (46\%) &  \\ 
+los & 5 (1) & 12 (2) & <0.001 \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Welch Two Sample t-test; Pearson's Chi-squared test; Wilcoxon rank sum test\\
+\end{minipage}
+\end{table}
+
+\section{任務
+13：客製化你的表格}\label{ux4efbux52d9-13ux5ba2ux88fdux5316ux4f60ux7684ux8868ux683c}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我想要修改我的 gtsummary 表格：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  連續變數顯示「平均值 ± 標準差」而不是中位數
+\item
+  把欄位名稱改成中文（age → 年齡、gender → 性別、los → 住院天數）
+\item
+  p-value 如果小於 0.05 就用粗體標示
+\end{enumerate}
+\end{quote}
+
+\subsection{客製化表格}\label{ux5ba2ux88fdux5316ux8868ux683c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 客製化 Table 1}
+\NormalTok{table1\_final }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(treatment, age, gender, los) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =}\NormalTok{ treatment,}
+    \AttributeTok{label =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{      age }\SpecialCharTok{\textasciitilde{}} \StringTok{"年齡"}\NormalTok{,}
+\NormalTok{      gender }\SpecialCharTok{\textasciitilde{}} \StringTok{"性別"}\NormalTok{,}
+\NormalTok{      los }\SpecialCharTok{\textasciitilde{}} \StringTok{"住院天數"}
+\NormalTok{    ),}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+      \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} ± \{sd\}"}\NormalTok{,}
+      \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bold\_p}\NormalTok{(}\AttributeTok{t =} \FloatTok{0.05}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_header}\NormalTok{(label }\SpecialCharTok{\textasciitilde{}} \StringTok{"**變項**"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_spanning\_header}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"stat\_1"}\NormalTok{, }\StringTok{"stat\_2"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{"**治療組別**"}\NormalTok{)}
+
+\NormalTok{table1\_final}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+ & \multicolumn{2}{c}{\textbf{治療組別}} &  \\ 
+\cmidrule(lr){2-3}
+\textbf{變項} & \textbf{A}  N = 50\textsuperscript{\textit{1}} & \textbf{B}  N = 50\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+年齡 & 42 \ensuremath{\pm} 4 & 56 \ensuremath{\pm} 5 & {\bfseries <0.001} \\ 
+性別 &  &  & 0.4 \\ 
+    F & 23 (46\%) & 27 (54\%) &  \\ 
+    M & 27 (54\%) & 23 (46\%) &  \\ 
+住院天數 & 5 \ensuremath{\pm} 1 & 12 \ensuremath{\pm} 2 & {\bfseries <0.001} \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean ± SD; n (\%)\\
+\textsuperscript{\textit{2}}Wilcoxon rank sum test; Pearson's Chi-squared test\\
+\end{minipage}
+\end{table}
+
+\section{任務
+14：匯出你的表格}\label{ux4efbux52d9-14ux532fux51faux4f60ux7684ux8868ux683c}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我做好了一個 gtsummary 的表格，存在變數 \texttt{my\_table}
+裡面。我想要把它輸出成 Word 檔案，方便貼到我的論文。請給我程式碼。
+\end{quote}
+
+\subsection{匯出表格}\label{ux532fux51faux8868ux683c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 安裝必要套件（如果還沒安裝）}
+\CommentTok{\# install.packages("flextable")}
+
+\FunctionTok{library}\NormalTok{(flextable)}
+
+\CommentTok{\# 轉換為 flextable 格式並存成 Word 檔}
+\NormalTok{table1\_final }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_flex\_table}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  flextable}\SpecialCharTok{::}\FunctionTok{save\_as\_docx}\NormalTok{(}\AttributeTok{path =} \StringTok{"Table1.docx"}\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(}\StringTok{"Table 1 已成功匯出為 Table1.docx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\chapter{第四部分：畫出論文等級的圖}\label{ux7b2cux56dbux90e8ux5206ux756bux51faux8ad6ux6587ux7b49ux7d1aux7684ux5716}
+
+本部分預計時間：40 分鐘
+
+\section{任務
+15：第一個盒狀圖}\label{ux4efbux52d9-15ux7b2cux4e00ux500bux76d2ux72c0ux5716}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我有一個資料框 \texttt{my\_data}，裡面有 treatment（A 或 B 兩組）和
+los（住院天數）。請用 ggplot2 畫一個盒狀圖，比較兩組的住院天數分佈。
+\end{quote}
+
+\subsection{基本盒狀圖}\label{ux57faux672cux76d2ux72c0ux5716}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# 讀取資料}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data.csv"}\NormalTok{)}
+
+\CommentTok{\# 畫基本盒狀圖}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ treatment, }\AttributeTok{y =}\NormalTok{ los)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part4_files/figure-pdf/boxplot-basic-1.pdf}}
+
+\section{任務
+16：讓圖變專業}\label{ux4efbux52d9-16ux8b93ux5716ux8b8aux5c08ux696d}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+請幫我美化這個盒狀圖：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  加上標題「兩組治療的住院天數比較」
+\item
+  X 軸標籤改成「治療組別」，Y 軸改成「住院天數（天）」
+\item
+  兩組用不同顏色（藍色和橘色）
+\item
+  使用簡潔的主題風格
+\item
+  不要顯示圖例（因為 X 軸已經說明了）
+\end{enumerate}
+\end{quote}
+
+\subsection{專業化盒狀圖}\label{ux5c08ux696dux5316ux76d2ux72c0ux5716}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 畫專業的盒狀圖}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ treatment, }\AttributeTok{y =}\NormalTok{ los, }\AttributeTok{fill =}\NormalTok{ treatment)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"} \OtherTok{=} \StringTok{"steelblue"}\NormalTok{, }\StringTok{"B"} \OtherTok{=} \StringTok{"darkorange"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"兩組治療的住院天數比較"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"治療組別"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"住院天數（天）"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part4_files/figure-pdf/boxplot-professional-1.pdf}}
+
+\section{任務
+17：加上資料點}\label{ux4efbux52d9-17ux52a0ux4e0aux8cc7ux6599ux9ede}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我想在盒狀圖上面疊加個別的資料點，讓讀者可以看到實際的分佈。但資料點不要完全重疊，要有一點水平的隨機散開。請修改程式碼。
+\end{quote}
+
+\subsection{加入資料點的盒狀圖}\label{ux52a0ux5165ux8cc7ux6599ux9edeux7684ux76d2ux72c0ux5716}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 盒狀圖加上資料點}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ treatment, }\AttributeTok{y =}\NormalTok{ los, }\AttributeTok{fill =}\NormalTok{ treatment)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"} \OtherTok{=} \StringTok{"steelblue"}\NormalTok{, }\StringTok{"B"} \OtherTok{=} \StringTok{"darkorange"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"兩組治療的住院天數比較"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"治療組別"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"住院天數（天）"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part4_files/figure-pdf/boxplot-with-points-1.pdf}}
+
+\section{任務
+18：其他類型的圖}\label{ux4efbux52d9-18ux5176ux4ed6ux985eux578bux7684ux5716}
+
+\subsection{選項 A：長條圖}\label{ux9078ux9805-aux9577ux689dux5716}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 性別分佈長條圖}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gender, }\AttributeTok{fill =}\NormalTok{ gender)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"M"} \OtherTok{=} \StringTok{"lightblue"}\NormalTok{, }\StringTok{"F"} \OtherTok{=} \StringTok{"pink"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"性別分佈"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"性別"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"人數"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part4_files/figure-pdf/barplot-1.pdf}}
+
+\subsection{選項 B：散佈圖}\label{ux9078ux9805-bux6563ux4f48ux5716}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 年齡與住院天數散佈圖}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age, }\AttributeTok{y =}\NormalTok{ los, }\AttributeTok{color =}\NormalTok{ treatment)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"} \OtherTok{=} \StringTok{"steelblue"}\NormalTok{, }\StringTok{"B"} \OtherTok{=} \StringTok{"darkorange"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"年齡與住院天數的關係"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"年齡（歲）"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"住院天數（天）"}\NormalTok{,}
+    \AttributeTok{color =} \StringTok{"治療組別"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part4_files/figure-pdf/scatterplot-1.pdf}}
+
+\subsection{選項 C：直方圖}\label{ux9078ux9805-cux76f4ux65b9ux5716}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 住院天數分佈直方圖}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ los, }\AttributeTok{fill =}\NormalTok{ treatment)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{2}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"} \OtherTok{=} \StringTok{"steelblue"}\NormalTok{, }\StringTok{"B"} \OtherTok{=} \StringTok{"darkorange"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"住院天數分佈"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"住院天數（天）"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"人數"}\NormalTok{,}
+    \AttributeTok{fill =} \StringTok{"治療組別"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part4_files/figure-pdf/histogram-1.pdf}}
+
+\section{任務
+19：存檔你的圖}\label{ux4efbux52d9-19ux5b58ux6a94ux4f60ux7684ux5716}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我畫好了一張 ggplot2 的圖，想要存成 PNG
+檔案，解析度要夠高可以放在論文裡（300 dpi），大小大約是 8 x 6
+英吋。請給我存檔的程式碼。
+\end{quote}
+
+\subsection{儲存高品質圖檔}\label{ux5132ux5b58ux9ad8ux54c1ux8ceaux5716ux6a94}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 儲存最後畫的圖}
+\FunctionTok{ggsave}\NormalTok{(}
+  \AttributeTok{filename =} \StringTok{"boxplot\_comparison.png"}\NormalTok{,}
+  \AttributeTok{width =} \DecValTok{8}\NormalTok{,}
+  \AttributeTok{height =} \DecValTok{6}\NormalTok{,}
+  \AttributeTok{dpi =} \DecValTok{300}\NormalTok{,}
+  \AttributeTok{units =} \StringTok{"in"}
+\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(}\StringTok{"圖表已成功儲存為 boxplot\_comparison.png"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\chapter{第五部分：統計檢定}\label{ux7b2cux4e94ux90e8ux5206ux7d71ux8a08ux6aa2ux5b9a}
+
+本部分預計時間：30 分鐘
+
+\section{任務 20：讓 AI
+選擇統計方法}\label{ux4efbux52d9-20ux8b93-ai-ux9078ux64c7ux7d71ux8a08ux65b9ux6cd5}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我想要比較兩組病人（treatment A vs
+B）的住院天數（los）有沒有顯著差異。我的資料存在 \texttt{my\_data}
+裡面。
+
+請幫我：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  判斷應該用什麼統計方法（為什麼）
+\item
+  給我執行這個檢定的 R 程式碼
+\item
+  告訴我怎麼解讀結果
+\end{enumerate}
+\end{quote}
+
+\subsection{統計檢定選擇}\label{ux7d71ux8a08ux6aa2ux5b9aux9078ux64c7}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 讀取資料}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data.csv"}\NormalTok{)}
+
+\CommentTok{\# 先檢查資料分佈}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# 檢視分佈圖}
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ los, }\AttributeTok{fill =}\NormalTok{ treatment)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{1}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.6}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{treatment, }\AttributeTok{ncol =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part5_files/figure-pdf/statistical-test-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 常態性檢定}
+\NormalTok{shapiro\_a }\OtherTok{\textless{}{-}} \FunctionTok{shapiro.test}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{los[my\_data}\SpecialCharTok{$}\NormalTok{treatment }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{])}
+\NormalTok{shapiro\_b }\OtherTok{\textless{}{-}} \FunctionTok{shapiro.test}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{los[my\_data}\SpecialCharTok{$}\NormalTok{treatment }\SpecialCharTok{==} \StringTok{"B"}\NormalTok{])}
+
+\FunctionTok{print}\NormalTok{(}\StringTok{"Shapiro{-}Wilk 常態性檢定結果："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Shapiro-Wilk 常態性檢定結果："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"A 組 p{-}value:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(shapiro\_a}\SpecialCharTok{$}\NormalTok{p.value, }\DecValTok{4}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "A 組 p-value: 0.0004"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"B 組 p{-}value:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(shapiro\_b}\SpecialCharTok{$}\NormalTok{p.value, }\DecValTok{4}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "B 組 p-value: 0.0829"
+\end{verbatim}
+
+\subsection{執行統計檢定}\label{ux57f7ux884cux7d71ux8a08ux6aa2ux5b9a}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 執行 t{-}test（假設資料符合常態分佈）}
+\NormalTok{t\_test\_result }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
+\FunctionTok{print}\NormalTok{(t\_test\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Welch Two Sample t-test
+
+data:  los by treatment
+t = -19.12, df = 68.524, p-value < 2.2e-16
+alternative hypothesis: true difference in means between group A and group B is not equal to 0
+95 percent confidence interval:
+ -7.708356 -6.251644
+sample estimates:
+mean in group A mean in group B 
+           4.58           11.56 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 執行 Wilcoxon rank{-}sum test（無母數檢定）}
+\NormalTok{wilcox\_result }\OtherTok{\textless{}{-}} \FunctionTok{wilcox.test}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
+\FunctionTok{print}\NormalTok{(wilcox\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Wilcoxon rank sum test with continuity correction
+
+data:  los by treatment
+W = 0, p-value < 2.2e-16
+alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\section{任務
+21：解讀你的結果}\label{ux4efbux52d9-21ux89e3ux8b80ux4f60ux7684ux7d50ux679c}
+
+📋 \textbf{把統計檢定的輸出複製起來，加上這段話貼給 AI：}
+
+\begin{quote}
+這是我的統計檢定結果： 【貼上輸出】
+
+請用白話文解釋這個結果，包括：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  兩組有沒有顯著差異
+\item
+  p-value 是什麼意思
+\item
+  這個結果在臨床上可能代表什麼
+\end{enumerate}
+\end{quote}
+
+\subsection{結果解讀}\label{ux7d50ux679cux89e3ux8b80}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 整理結果摘要}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+The following objects are masked from 'package:stats':
+
+    filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result\_summary }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(treatment) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{mean\_los =} \FunctionTok{mean}\NormalTok{(los),}
+    \AttributeTok{sd\_los =} \FunctionTok{sd}\NormalTok{(los),}
+    \AttributeTok{median\_los =} \FunctionTok{median}\NormalTok{(los),}
+    \AttributeTok{min\_los =} \FunctionTok{min}\NormalTok{(los),}
+    \AttributeTok{max\_los =} \FunctionTok{max}\NormalTok{(los)}
+\NormalTok{  )}
+
+\FunctionTok{print}\NormalTok{(}\StringTok{"各組描述性統計："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "各組描述性統計："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(result\_summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 2 x 7
+  treatment     n mean_los sd_los median_los min_los max_los
+  <chr>     <int>    <dbl>  <dbl>      <dbl>   <int>   <int>
+1 A            50     4.58   1.07          5       3       7
+2 B            50    11.6    2.35         11       8      17
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 計算效應量（Cohen\textquotesingle{}s d）}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(effsize, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"effsize"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+  \FunctionTok{library}\NormalTok{(effsize)}
+\NormalTok{\}}
+\NormalTok{cohen\_d }\OtherTok{\textless{}{-}} \FunctionTok{cohen.d}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"效應量 (Cohen\textquotesingle{}s d):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(cohen\_d}\SpecialCharTok{$}\NormalTok{estimate, }\DecValTok{3}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "效應量 (Cohen's d): -3.824"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 解釋}
+\ControlFlowTok{if}\NormalTok{ (t\_test\_result}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組在統計上有顯著差異 (p \textless{} 0.05)"}\NormalTok{)}
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"B 組的平均住院天數比 A 組多約"}\NormalTok{, }
+              \FunctionTok{round}\NormalTok{(}\FunctionTok{diff}\NormalTok{(result\_summary}\SpecialCharTok{$}\NormalTok{mean\_los), }\DecValTok{1}\NormalTok{), }\StringTok{"天"}\NormalTok{))}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組在統計上無顯著差異 (p \textgreater{}= 0.05)"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "結論：兩組在統計上有顯著差異 (p < 0.05)"
+[1] "B 組的平均住院天數比 A 組多約 7 天"
+\end{verbatim}
+
+\section{任務
+22：檢查假設}\label{ux4efbux52d9-22ux6aa2ux67e5ux5047ux8a2d}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+剛剛的統計檢定有什麼前提假設？我要怎麼用 R
+檢查我的資料有沒有符合這些假設？如果不符合，有什麼替代方法？
+\end{quote}
+
+\subsection{假設檢驗}\label{ux5047ux8a2dux6aa2ux9a57}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 1. 檢查常態性}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(car, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"car"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+  \FunctionTok{library}\NormalTok{(car)}
+\NormalTok{\}}
+
+\CommentTok{\# Q{-}Q plot}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{qqnorm}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{los[my\_data}\SpecialCharTok{$}\NormalTok{treatment }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{], }\AttributeTok{main =} \StringTok{"Q{-}Q Plot: Treatment A"}\NormalTok{)}
+\FunctionTok{qqline}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{los[my\_data}\SpecialCharTok{$}\NormalTok{treatment }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{])}
+
+\FunctionTok{qqnorm}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{los[my\_data}\SpecialCharTok{$}\NormalTok{treatment }\SpecialCharTok{==} \StringTok{"B"}\NormalTok{], }\AttributeTok{main =} \StringTok{"Q{-}Q Plot: Treatment B"}\NormalTok{)}
+\FunctionTok{qqline}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{los[my\_data}\SpecialCharTok{$}\NormalTok{treatment }\SpecialCharTok{==} \StringTok{"B"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part5_files/figure-pdf/check-assumptions-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. 檢查變異數同質性}
+\NormalTok{levene\_result }\OtherTok{\textless{}{-}} \FunctionTok{leveneTest}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Levene\textquotesingle{}s Test for Homogeneity of Variance:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Levene's Test for Homogeneity of Variance:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(levene\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Levene's Test for Homogeneity of Variance (center = median)
+      Df F value    Pr(>F)    
+group  1  21.224 0.0000123 ***
+      98                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3. 根據假設檢驗結果選擇適當方法}
+\ControlFlowTok{if}\NormalTok{ (shapiro\_a}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textless{}} \FloatTok{0.05} \SpecialCharTok{|}\NormalTok{ shapiro\_b}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"建議：資料不符合常態分佈，應使用 Wilcoxon rank{-}sum test"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (levene\_result}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Pr(\textgreater{}F)}\StringTok{\textasciigrave{}}\NormalTok{[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"建議：變異數不同質，應使用 Welch\textquotesingle{}s t{-}test"}\NormalTok{)}
+\NormalTok{  welch\_result }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data, }\AttributeTok{var.equal =} \ConstantTok{FALSE}\NormalTok{)}
+  \FunctionTok{print}\NormalTok{(welch\_result)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"建議：資料符合所有假設，可使用 Student\textquotesingle{}s t{-}test"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "建議：資料不符合常態分佈，應使用 Wilcoxon rank-sum test"
+\end{verbatim}
+
+\section{任務
+23：類別變數的比較}\label{ux4efbux52d9-23ux985eux5225ux8b8aux6578ux7684ux6bd4ux8f03}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我想要看 treatment（A vs B）和 gender（M vs F）有沒有關聯。也就是說，A
+組和 B 組的男女比例有沒有不同。
+
+請給我適當的統計檢定程式碼，並教我怎麼解讀。
+\end{quote}
+
+\subsection{類別變數檢定}\label{ux985eux5225ux8b8aux6578ux6aa2ux5b9a}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 建立列聯表}
+\NormalTok{contingency\_table }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{treatment, my\_data}\SpecialCharTok{$}\NormalTok{gender)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"列聯表："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "列聯表："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(contingency\_table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+   
+     F  M
+  A 23 27
+  B 27 23
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 加上比例}
+\NormalTok{prop\_table }\OtherTok{\textless{}{-}} \FunctionTok{prop.table}\NormalTok{(contingency\_table, }\AttributeTok{margin =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}
+\FunctionTok{print}\NormalTok{(}\StringTok{"各組性別比例（\%）："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "各組性別比例（%）："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(prop\_table, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+   
+     F  M
+  A 46 54
+  B 54 46
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 執行卡方檢定}
+\NormalTok{chisq\_result }\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(contingency\_table)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"卡方檢定結果："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "卡方檢定結果："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(chisq\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  contingency_table
+X-squared = 0.36, df = 1, p-value = 0.5485
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fisher\textquotesingle{}s exact test（適用於小樣本）}
+\NormalTok{fisher\_result }\OtherTok{\textless{}{-}} \FunctionTok{fisher.test}\NormalTok{(contingency\_table)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Fisher\textquotesingle{}s exact test："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Fisher's exact test："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(fisher\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Fisher's Exact Test for Count Data
+
+data:  contingency_table
+p-value = 0.5487
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.3068457 1.7125734
+sample estimates:
+odds ratio 
+ 0.7280058 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 解讀結果}
+\ControlFlowTok{if}\NormalTok{ (chisq\_result}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組的性別分佈有顯著差異"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組的性別分佈無顯著差異"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "結論：兩組的性別分佈無顯著差異"
+\end{verbatim}
+
+\bookmarksetup{startatroot}
+
+\chapter{第六部分：整合與收尾}\label{ux7b2cux516dux90e8ux5206ux6574ux5408ux8207ux6536ux5c3e}
+
+本部分預計時間：20 分鐘
+
+\section{任務
+24：完整的分析流程}\label{ux4efbux52d9-24ux5b8cux6574ux7684ux5206ux6790ux6d41ux7a0b}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+請幫我寫一個完整的 R script，從頭到尾做完以下分析：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  讀取 patient\_data.csv
+\item
+  用 gtsummary 產出 Table 1（依照 treatment 分組，含 p-value）
+\item
+  用 ggplot2 畫一個比較兩組 los 的盒狀圖
+\item
+  做統計檢定比較兩組 los
+\item
+  把表格存成 Word 檔、圖存成 PNG 檔
+\end{enumerate}
+
+請把程式碼整理成一個可以從頭跑到尾的
+script，並加上註解說明每一步在做什麼。
+\end{quote}
+
+\subsection{完整分析腳本}\label{ux5b8cux6574ux5206ux6790ux8173ux672c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ===========================}
+\CommentTok{\# 臨床研究統計分析完整腳本}
+\CommentTok{\# ===========================}
+
+\CommentTok{\# 載入必要套件}
+\FunctionTok{library}\NormalTok{(gtsummary)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# 安裝並載入 flextable（如果需要）}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(flextable, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"flextable"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+  \FunctionTok{library}\NormalTok{(flextable)}
+\NormalTok{\}}
+
+\CommentTok{\# 1. 讀取資料}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data.csv"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"資料讀取成功！"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"共有"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(my\_data), }\StringTok{"筆資料"}\NormalTok{))}
+
+\CommentTok{\# 2. 建立 Table 1}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{table1 }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(treatment, age, gender, los) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =}\NormalTok{ treatment,}
+    \AttributeTok{label =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{      age }\SpecialCharTok{\textasciitilde{}} \StringTok{"年齡（歲）"}\NormalTok{,}
+\NormalTok{      gender }\SpecialCharTok{\textasciitilde{}} \StringTok{"性別"}\NormalTok{,}
+\NormalTok{      los }\SpecialCharTok{\textasciitilde{}} \StringTok{"住院天數（天）"}
+\NormalTok{    ),}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+      \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} ± \{sd\}"}\NormalTok{,}
+      \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bold\_p}\NormalTok{(}\AttributeTok{t =} \FloatTok{0.05}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_header}\NormalTok{(label }\SpecialCharTok{\textasciitilde{}} \StringTok{"**變項**"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_spanning\_header}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"stat\_1"}\NormalTok{, }\StringTok{"stat\_2"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{"**治療組別**"}\NormalTok{)}
+
+\CommentTok{\# 顯示 Table 1}
+\FunctionTok{print}\NormalTok{(table1)}
+
+\CommentTok{\# 3. 繪製盒狀圖}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ treatment, }\AttributeTok{y =}\NormalTok{ los, }\AttributeTok{fill =}\NormalTok{ treatment)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"} \OtherTok{=} \StringTok{"steelblue"}\NormalTok{, }\StringTok{"B"} \OtherTok{=} \StringTok{"darkorange"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"兩組治療的住院天數比較"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"治療組別"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"住院天數（天）"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{  )}
+
+\CommentTok{\# 顯示圖表}
+\FunctionTok{print}\NormalTok{(p)}
+
+\CommentTok{\# 4. 統計檢定}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# t{-}test}
+\NormalTok{t\_test }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"獨立樣本 t 檢定結果："}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(t\_test)}
+
+\CommentTok{\# Wilcoxon test（無母數替代方法）}
+\NormalTok{wilcox\_test }\OtherTok{\textless{}{-}} \FunctionTok{wilcox.test}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Wilcoxon rank{-}sum 檢定結果："}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(wilcox\_test)}
+
+\CommentTok{\# 5. 儲存輸出}
+\CommentTok{\# {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# 儲存 Table 1 為 Word 檔}
+\NormalTok{table1 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_flex\_table}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{save\_as\_docx}\NormalTok{(}\AttributeTok{path =} \StringTok{"Table1\_output.docx"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Table 1 已儲存為 Table1\_output.docx"}\NormalTok{)}
+
+\CommentTok{\# 儲存盒狀圖為 PNG 檔}
+\FunctionTok{ggsave}\NormalTok{(}
+  \AttributeTok{filename =} \StringTok{"boxplot\_los\_comparison.png"}\NormalTok{,}
+  \AttributeTok{plot =}\NormalTok{ p,}
+  \AttributeTok{width =} \DecValTok{8}\NormalTok{,}
+  \AttributeTok{height =} \DecValTok{6}\NormalTok{,}
+  \AttributeTok{dpi =} \DecValTok{300}\NormalTok{,}
+  \AttributeTok{units =} \StringTok{"in"}
+\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"盒狀圖已儲存為 boxplot\_los\_comparison.png"}\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(}\StringTok{"===== 分析完成！====="}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{任務
+25：做成你的範本}\label{ux4efbux52d9-25ux505aux6210ux4f60ux7684ux7bc4ux672c}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+請把剛剛的 script
+改成一個「範本」，把檔案名稱、分組變數、要分析的變數都用清楚的變數名稱標示在最上面，這樣我以後只要改最上面的設定，就可以套用到不同的資料。
+\end{quote}
+
+\subsection{可重複使用的分析範本}\label{ux53efux91cdux8907ux4f7fux7528ux7684ux5206ux6790ux7bc4ux672c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ========================================}
+\CommentTok{\# 臨床研究統計分析範本}
+\CommentTok{\# 使用說明：修改下方設定區的參數即可}
+\CommentTok{\# ========================================}
+
+\CommentTok{\# ========== 設定區 ==========}
+\CommentTok{\# 請根據您的資料修改以下參數}
+
+\CommentTok{\# 檔案設定}
+\NormalTok{DATA\_FILE }\OtherTok{\textless{}{-}} \StringTok{"patient\_data.csv"}          \CommentTok{\# 資料檔案名稱}
+\NormalTok{OUTPUT\_TABLE }\OtherTok{\textless{}{-}} \StringTok{"Table1\_results.docx"}    \CommentTok{\# 輸出表格檔名}
+\NormalTok{OUTPUT\_FIGURE }\OtherTok{\textless{}{-}} \StringTok{"comparison\_plot.png"}   \CommentTok{\# 輸出圖檔名}
+
+\CommentTok{\# 變數設定}
+\NormalTok{GROUP\_VAR }\OtherTok{\textless{}{-}} \StringTok{"treatment"}                 \CommentTok{\# 分組變數}
+\NormalTok{CONTINUOUS\_VARS }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"age"}\NormalTok{, }\StringTok{"los"}\NormalTok{)       }\CommentTok{\# 連續變數}
+\NormalTok{CATEGORICAL\_VARS }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"gender"}\NormalTok{)          }\CommentTok{\# 類別變數}
+\NormalTok{OUTCOME\_VAR }\OtherTok{\textless{}{-}} \StringTok{"los"}                     \CommentTok{\# 主要結果變數（用於畫圖）}
+
+\CommentTok{\# 標籤設定（中文名稱）}
+\NormalTok{LABELS }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
+  \AttributeTok{age =} \StringTok{"年齡（歲）"}\NormalTok{,}
+  \AttributeTok{gender =} \StringTok{"性別"}\NormalTok{,}
+  \AttributeTok{los =} \StringTok{"住院天數（天）"}\NormalTok{,}
+  \AttributeTok{treatment =} \StringTok{"治療組別"}
+\NormalTok{)}
+
+\CommentTok{\# 圖表設定}
+\NormalTok{PLOT\_TITLE }\OtherTok{\textless{}{-}} \StringTok{"兩組治療的住院天數比較"}
+\NormalTok{GROUP\_COLORS }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"steelblue"}\NormalTok{, }\StringTok{"darkorange"}\NormalTok{)  }\CommentTok{\# 兩組的顏色}
+
+\CommentTok{\# ========== 分析程式（通常不需修改）==========}
+
+\CommentTok{\# 載入套件}
+\NormalTok{required\_packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"gtsummary"}\NormalTok{, }\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"flextable"}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (pkg }\ControlFlowTok{in}\NormalTok{ required\_packages) \{}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(pkg, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+    \FunctionTok{install.packages}\NormalTok{(pkg, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(pkg, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\CommentTok{\# 讀取資料}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(DATA\_FILE)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"成功讀取"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(data), }\StringTok{"筆資料"}\NormalTok{))}
+
+\CommentTok{\# 建立變數清單}
+\NormalTok{all\_vars }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(GROUP\_VAR, CONTINUOUS\_VARS, CATEGORICAL\_VARS)}
+
+\CommentTok{\# 產生 Table 1}
+\NormalTok{table\_result }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(all\_vars)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =} \FunctionTok{all\_of}\NormalTok{(GROUP\_VAR),}
+    \AttributeTok{label =}\NormalTok{ LABELS,}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+      \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} ± \{sd\}"}\NormalTok{,}
+      \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bold\_p}\NormalTok{(}\AttributeTok{t =} \FloatTok{0.05}\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(table\_result)}
+
+\CommentTok{\# 繪製比較圖}
+\NormalTok{plot\_formula }\OtherTok{\textless{}{-}} \FunctionTok{as.formula}\NormalTok{(}\FunctionTok{paste}\NormalTok{(OUTCOME\_VAR, }\StringTok{"\textasciitilde{}"}\NormalTok{, GROUP\_VAR))}
+
+\NormalTok{comparison\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(data, }
+                          \FunctionTok{aes\_string}\NormalTok{(}\AttributeTok{x =}\NormalTok{ GROUP\_VAR, }
+                                    \AttributeTok{y =}\NormalTok{ OUTCOME\_VAR, }
+                                    \AttributeTok{fill =}\NormalTok{ GROUP\_VAR)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ GROUP\_COLORS) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =}\NormalTok{ PLOT\_TITLE,}
+    \AttributeTok{x =}\NormalTok{ LABELS[[GROUP\_VAR]],}
+    \AttributeTok{y =}\NormalTok{ LABELS[[OUTCOME\_VAR]]}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{  )}
+
+\FunctionTok{print}\NormalTok{(comparison\_plot)}
+
+\CommentTok{\# 統計檢定}
+\NormalTok{test\_result }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(plot\_formula, }\AttributeTok{data =}\NormalTok{ data)}
+\FunctionTok{print}\NormalTok{(test\_result)}
+
+\CommentTok{\# 儲存結果}
+\NormalTok{table\_result }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_flex\_table}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{save\_as\_docx}\NormalTok{(}\AttributeTok{path =}\NormalTok{ OUTPUT\_TABLE)}
+
+\FunctionTok{ggsave}\NormalTok{(}
+  \AttributeTok{filename =}\NormalTok{ OUTPUT\_FIGURE,}
+  \AttributeTok{plot =}\NormalTok{ comparison\_plot,}
+  \AttributeTok{width =} \DecValTok{8}\NormalTok{,}
+  \AttributeTok{height =} \DecValTok{6}\NormalTok{,}
+  \AttributeTok{dpi =} \DecValTok{300}
+\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"分析完成！結果已儲存至"}\NormalTok{, OUTPUT\_TABLE, }\StringTok{"和"}\NormalTok{, OUTPUT\_FIGURE))}
+\end{Highlighting}
+\end{Shaded}
+
+\section{任務
+26：當你離開這個教室之後}\label{ux4efbux52d9-26ux7576ux4f60ux96e2ux958bux9019ux500bux6559ux5ba4ux4e4bux5f8c}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我是一個剛學 R 的醫護人員，主要想用 R 做臨床研究的統計分析。請推薦我：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  3 個最值得學的 R 技能（以我的需求來說）
+\item
+  2 個適合初學者的免費學習資源
+\item
+  當我遇到問題時，除了問你之外，還可以去哪裡找答案
+\end{enumerate}
+\end{quote}
+
+\subsection{持續學習建議}\label{ux6301ux7e8cux5b78ux7fd2ux5efaux8b70}
+
+\subsubsection{最值得學的 3 個 R
+技能}\label{ux6700ux503cux5f97ux5b78ux7684-3-ux500b-r-ux6280ux80fd}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{資料整理（dplyr 套件）}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{filter()}：篩選資料
+  \item
+    \texttt{select()}：選擇欄位
+  \item
+    \texttt{mutate()}：新增計算欄位
+  \item
+    \texttt{group\_by()} + \texttt{summarise()}：分組統計
+  \end{itemize}
+\item
+  \textbf{統計分析（基礎 R + 專門套件）}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    基礎統計檢定：\texttt{t.test()}, \texttt{wilcox.test()},
+    \texttt{chisq.test()}
+  \item
+    迴歸分析：\texttt{lm()}, \texttt{glm()}
+  \item
+    存活分析：\texttt{survival} 套件
+  \end{itemize}
+\item
+  \textbf{資料視覺化（ggplot2）}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    基本圖形：散佈圖、長條圖、盒狀圖
+  \item
+    客製化：主題、顏色、標籤
+  \item
+    論文品質輸出：高解析度、適當尺寸
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{免費學習資源}\label{ux514dux8cbbux5b78ux7fd2ux8cc7ux6e90}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{R for Data Science (線上免費書)}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    網址：https://r4ds.had.co.nz/
+  \item
+    中文版也有免費線上版本
+  \end{itemize}
+\item
+  \textbf{Swirl 互動式學習套件}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"swirl"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(swirl)}
+\FunctionTok{swirl}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+\end{enumerate}
+
+\subsubsection{問題解決資源}\label{ux554fux984cux89e3ux6c7aux8cc7ux6e90}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Stack Overflow}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    搜尋關鍵字加上 ``R''
+  \item
+    大部分問題都有人問過
+  \end{itemize}
+\item
+  \textbf{R 官方文件}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    在 R 中輸入 \texttt{?函數名稱} 查看說明
+  \item
+    例如：\texttt{?t.test}
+  \end{itemize}
+\item
+  \textbf{統計諮詢}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    醫院或學校的統計諮詢中心
+  \item
+    線上統計論壇（如 Cross Validated）
+  \end{itemize}
+\end{enumerate}
+
+\subsection{練習建議}\label{ux7df4ux7fd2ux5efaux8b70}
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule\noalign{}
+週次 & 練習重點 & 建議時間 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 重複今天的內容，用自己的資料 & 每天 30 分鐘 \\
+2 & 學習 dplyr 資料整理 & 每天 30 分鐘 \\
+3 & 嘗試不同的統計檢定 & 每週 2-3 次 \\
+4 & 製作更複雜的圖表 & 每週 2-3 次 \\
+\end{longtable}
+
+\section{今天學會的超能力總結}\label{ux4ecaux5929ux5b78ux6703ux7684ux8d85ux80fdux529bux7e3dux7d50}
+
+\begin{itemize}
+\tightlist
+\item
+  ✅ 把問題描述清楚，讓 AI 幫你寫程式
+\item
+  ✅ 看懂 AI 給的程式碼大概在做什麼
+\item
+  ✅ 當程式出錯，知道怎麼問 AI 修正
+\item
+  ✅ 產出可以放進論文的表格和圖表
+\item
+  ✅ 有一個可以重複使用的分析範本
+\end{itemize}
+
+\textbf{你不需要記住任何語法，但要記住如何問對問題！}
+
+\bookmarksetup{startatroot}
+
+\chapter{附錄：常見技術問題與解決方案}\label{ux9644ux9304ux5e38ux898bux6280ux8853ux554fux984cux8207ux89e3ux6c7aux65b9ux6848}
+
+\subsection{R 環境設置}\label{r-ux74b0ux5883ux8a2dux7f6e}
+
+\subsubsection{套件安裝問題}\label{ux5957ux4ef6ux5b89ux88ddux554fux984c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 如果安裝失敗，可以嘗試選擇不同的 CRAN mirror}
+\FunctionTok{options}\NormalTok{(}\AttributeTok{repos =} \FunctionTok{c}\NormalTok{(}\AttributeTok{CRAN =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{))}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"gtsummary"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{中文編碼問題}\label{ux4e2dux6587ux7de8ux78bcux554fux984c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 設定正確的編碼}
+\FunctionTok{Sys.setlocale}\NormalTok{(}\StringTok{"LC\_ALL"}\NormalTok{, }\StringTok{"Chinese"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{資料讀取問題}\label{ux8cc7ux6599ux8b80ux53d6ux554fux984c}
+
+\subsubsection{CSV 檔案路徑}\label{csv-ux6a94ux6848ux8defux5f91}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 檢查工作目錄}
+\FunctionTok{getwd}\NormalTok{()}
+
+\CommentTok{\# 設定工作目錄到資料檔案所在位置}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"/path/to/your/data"}\NormalTok{)}
+
+\CommentTok{\# 或使用絕對路徑}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"/完整路徑/patient\_data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{編碼問題}\label{ux7de8ux78bcux554fux984c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 如果中文顯示亂碼}
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data.csv"}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{教學節奏建議}\label{ux6559ux5b78ux7bc0ux594fux5efaux8b70}
+
+\subsection{第一部分（40分鐘）}\label{ux7b2cux4e00ux90e8ux520640ux5206ux9418}
+
+\begin{itemize}
+\tightlist
+\item
+  任務 1-2：15 分鐘（重點是建立信心）
+\item
+  任務 3：5 分鐘（如果沒錯誤可跳過）
+\item
+  任務 4：10 分鐘（概念理解）
+\item
+  任務 5：10 分鐘（實際安裝）
+\end{itemize}
+
+\subsection{第二部分（20分鐘）}\label{ux7b2cux4e8cux90e8ux520620ux5206ux9418}
+
+\begin{itemize}
+\tightlist
+\item
+  任務 6：8 分鐘（重點是成功讀取）
+\item
+  任務 7：7 分鐘（資料探索）
+\item
+  任務 8：5 分鐘（理解資料）
+\end{itemize}
+
+\subsection{第三部分（40分鐘）}\label{ux7b2cux4e09ux90e8ux520640ux5206ux9418}
+
+\begin{itemize}
+\tightlist
+\item
+  任務 9：5 分鐘（概念建立）
+\item
+  任務 10：10 分鐘（第一個表格）
+\item
+  任務 11：8 分鐘（加上統計）
+\item
+  任務 12：7 分鐘（理解方法選擇）
+\item
+  任務 13：10 分鐘（客製化）
+\end{itemize}
+
+\subsection{第四部分（40分鐘）}\label{ux7b2cux56dbux90e8ux520640ux5206ux9418}
+
+\begin{itemize}
+\tightlist
+\item
+  任務 15：8 分鐘（基本圖）
+\item
+  任務 16：12 分鐘（美化）
+\item
+  任務 17：10 分鐘（加資料點）
+\item
+  任務 18：10 分鐘（其他圖型，讓學員選擇）
+\end{itemize}
+
+\subsection{第五部分（30分鐘）}\label{ux7b2cux4e94ux90e8ux520630ux5206ux9418}
+
+\begin{itemize}
+\tightlist
+\item
+  任務 20：12 分鐘（統計方法選擇）
+\item
+  任務 21：8 分鐘（結果解讀）
+\item
+  任務 22：10 分鐘（假設檢驗）
+\end{itemize}
+
+\subsection{第六部分（20分鐘）}\label{ux7b2cux516dux90e8ux520620ux5206ux9418}
+
+\begin{itemize}
+\tightlist
+\item
+  任務 24：10 分鐘（完整腳本）
+\item
+  任務 25：10 分鐘（範本化）
+\end{itemize}
+
+\section{應急方案}\label{ux61c9ux6025ux65b9ux6848}
+
+\subsection{如果 AI
+無法使用}\label{ux5982ux679c-ai-ux7121ux6cd5ux4f7fux7528}
+
+準備預寫好的程式碼片段，但仍要強調： - 這不是背誦的重點 -
+重點是理解如何描述問題 - AI 恢復後繼續用 AI 輔助方式
+
+\section{評估學習成效}\label{ux8a55ux4f30ux5b78ux7fd2ux6210ux6548}
+
+\subsection{課程結束前檢查清單}\label{ux8ab2ux7a0bux7d50ux675fux524dux6aa2ux67e5ux6e05ux55ae}
+
+學員應該能夠： - {[} {]} 成功執行 AI 提供的 R 程式碼 - {[} {]}
+產出一個基本的描述性統計表格 - {[} {]} 畫出一個基本的比較圖表 - {[} {]}
+知道在遇到錯誤時如何求助（描述問題給 AI） - {[} {]} 理解 R
+程式碼的基本結構（變數、函數、參數）
+
+\section{2025 年臨床研究者的 R
+語言最佳套件組合指南}\label{ux5e74ux81e8ux5e8aux7814ux7a76ux8005ux7684-r-ux8a9eux8a00ux6700ux4f73ux5957ux4ef6ux7d44ux5408ux6307ux5357}
+
+\textbf{Quarto 取代 R Markdown 成為新標準，gtsummary + flextable
+主導臨床表格製作，而 ggsurvfit 正式取代 survminer
+成為存活分析視覺化首選。} 本報告基於 Reddit r/rstats、GitHub
+活躍度、CRAN 更新紀錄及 Posit 官方文件，為臨床醫學研究者彙整 2025 年 R
+套件生態系統的最新發展與最佳實踐。
+
+\section{資料視覺化：ggplot2
+生態系的黃金組合}\label{ux8cc7ux6599ux8996ux89baux5316ggplot2-ux751fux614bux7cfbux7684ux9ec3ux91d1ux7d44ux5408}
+
+臨床研究視覺化的核心仍是
+\textbf{ggplot2}，但其擴展套件生態系已趨成熟。2025
+年社群最推薦的組合是：
+
+\textbf{基礎組合：ggplot2 + ggpubr + ggsci + patchwork}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+套件 & GitHub Stars & 最後更新 & 核心功能 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{patchwork} & 2,600+ & 2024.09 & 圖表組合（取代 gridExtra） \\
+\textbf{ggpubr} & 活躍維護 & 2024 & 出版級統計圖表 + 顯著性標註 \\
+\textbf{ggsci} & 活躍維護 & 2024 & 醫學期刊配色（NEJM、Lancet、JAMA） \\
+\textbf{ggrepel} & 1,200+ & 2024.11 & 避免標籤重疊 \\
+\textbf{ggstatsplot} & 2,100+ & 2025.08 & 自動統計分析與視覺化整合 \\
+\end{longtable}
+
+\textbf{patchwork}
+已成為圖表組合的事實標準，語法直覺：\texttt{p1\ +\ p2}
+水平排列、\texttt{p1\ /\ p2} 垂直堆疊。\textbf{ggsci} 提供
+\texttt{scale\_color\_nejm()}、\texttt{scale\_fill\_lancet()}
+等函數，讓圖表配色直接符合期刊風格。
+
+\subsection{臨床專用圖表的最佳選擇}\label{ux81e8ux5e8aux5c08ux7528ux5716ux8868ux7684ux6700ux4f73ux9078ux64c7}
+
+\textbf{存活曲線：ggsurvfit（2025 標準）}
+
+survminer 已逐漸被 \textbf{ggsurvfit} 取代。關鍵差異在於 ggsurvfit
+回傳真正的 ggplot 物件，可完全客製化：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggsurvfit)}
+\FunctionTok{survfit2}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(time, status) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ group, }\AttributeTok{data =}\NormalTok{ df) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggsurvfit}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{add\_risktable}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{add\_confidence\_interval}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_nejm}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+ggsurvfit 由 pharmaverse 團隊開發，原生支援 CDISC ADaM
+資料格式，風險表會自動對齊縮放------這是 survminer 長期被詬病的問題。
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ggsurvfit}: https://cran.r-project.org/package=ggsurvfit（2024
+  活躍更新）
+\item
+  \textbf{survminer}: 仍可用但開發較不活躍，建議新專案使用 ggsurvfit
+\end{itemize}
+
+\textbf{森林圖：forestploter（2025 首選）}
+
+\textbf{forestploter}
+將森林圖視為對齊的表格處理，提供最大的版面控制彈性。相較於 forestplot
+套件的 grid 繪圖系統，forestploter 更容易產出期刊品質的圖表：
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{forestploter}:
+  https://cran.r-project.org/package=forestploter（2024 活躍）
+\item
+  \textbf{meta::forest()}: 適合標準 meta-analysis，內建 JAMA、RevMan5
+  版型
+\item
+  \textbf{ggforestplot}: 適合生物標記研究的垂直排列版型
+\end{itemize}
+
+\subsection{互動式圖表比較}\label{ux4e92ux52d5ux5f0fux5716ux8868ux6bd4ux8f03}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+套件 & 基礎技術 & 最佳用途 & 授權 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{plotly} & Plotly.js & ggplot2 快速轉互動（ggplotly） & 開源 \\
+\textbf{ggiraph} & htmlwidgets & 工具提示 + 連動圖表 & 開源 \\
+\textbf{echarts4r} & Apache ECharts & Shiny 儀表板 & 開源 \\
+\textbf{highcharter} & Highcharts & 商業級品質 & 商用需授權 \\
+\end{longtable}
+
+\textbf{plotly} 仍是最簡便的選擇------現有 ggplot2 程式碼只需包裹
+\texttt{ggplotly()}
+即可互動化。需要進階工具提示或圖表連動時，\textbf{ggiraph}
+是更好的選擇。
+
+\section{流程圖製作：CONSORT/STROBE
+圖的最佳解決方案}\label{ux6d41ux7a0bux5716ux88fdux4f5cconsortstrobe-ux5716ux7684ux6700ux4f73ux89e3ux6c7aux65b9ux6848}
+
+\subsection{2025 年推薦：flowchart
+套件}\label{ux5e74ux63a8ux85a6flowchart-ux5957ux4ef6}
+
+\textbf{flowchart} 套件（2024 年 2 月首發，2024 年 11 月更新至
+v0.6.0）採用 tidyverse 工作流程，可從資料框自動計算受試者人數：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(flowchart)}
+\NormalTok{data }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{as\_fc}\NormalTok{(}\AttributeTok{label =} \StringTok{"Screened"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{fc\_filter}\NormalTok{(eligible }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{label =} \StringTok{"Eligible"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{fc\_split}\NormalTok{(group, }\AttributeTok{label =} \StringTok{"Randomized"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{fc\_draw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{優勢}：數據變更時圖表自動更新，完全可重現。
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+套件 & 用途 & CRAN & 最後更新 & 學習曲線 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{flowchart} & CONSORT/STROBE & ✅ & 2024.11 & 低（tidyverse） \\
+\textbf{consort} & CONSORT 專用 & ✅ & 2024 & 低 \\
+\textbf{DiagrammeR} & 通用流程圖 & ✅ & 2024.02 & 中高 \\
+\textbf{ggflowchart} & 簡單流程圖 & ✅ & 2023.05 & 低 \\
+\end{longtable}
+
+\textbf{consort} 套件（https://github.com/adayim/consort）專為 CONSORT
+聲明設計，適合需要嚴格遵循 CONSORT 格式的研究。\textbf{DiagrammeR}
+則適合需要完全客製化的複雜流程圖，使用 Graphviz DOT 語言。
+
+\section{表格製作：gtsummary + flextable
+是黃金組合}\label{ux8868ux683cux88fdux4f5cgtsummary-flextable-ux662fux9ec3ux91d1ux7d44ux5408}
+
+\subsection{Table
+1（基線特徵表）}\label{table-1ux57faux7ddaux7279ux5fb5ux8868}
+
+\textbf{gtsummary} 已成為臨床研究 Table 1 的事實標準，取代了較舊的
+tableone：
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+功能 & gtsummary & tableone & table1 & arsenal \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+臨床研究導向 & ⭐⭐⭐ & ⭐⭐⭐ & ⭐⭐ & ⭐⭐⭐ \\
+自動變數偵測 & ✅ & ✅ & ❌ & ✅ \\
+統計檢定 p 值 & ✅ add\_p() & ✅ & 有限 & ✅ \\
+SMD 支援 & ✅ add\_difference() & ⭐⭐⭐ & ❌ & ✅ \\
+Word 輸出 & ⭐⭐⭐ & ⭐⭐ & ❌ & ⭐⭐ \\
+活躍開發 & ⭐⭐⭐ & ⭐⭐ & ⭐⭐ & ⭐⭐ \\
+\end{longtable}
+
+\textbf{gtsummary} 最後更新：2024 年 11 月 30 日（v2.4.0），由 Memorial
+Sloan Kettering 的 Daniel Sjoberg 開發維護。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(gtsummary)}
+\NormalTok{data }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{tbl\_summary}\NormalTok{(}
+    \AttributeTok{by =}\NormalTok{ treatment,}
+    \AttributeTok{include =} \FunctionTok{c}\NormalTok{(age, sex, bmi),}
+    \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}\FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{add\_p}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{add\_overall}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{bold\_labels}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{輸出格式化}\label{ux8f38ux51faux683cux5f0fux5316}
+
+\textbf{Word 輸出（期刊投稿必備）}：使用 \textbf{flextable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tbl\_summary}\NormalTok{(data, }\AttributeTok{by =}\NormalTok{ group) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{as\_flex\_table}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
+\NormalTok{  flextable}\SpecialCharTok{::}\FunctionTok{save\_as\_docx}\NormalTok{(}\AttributeTok{path =} \StringTok{"Table1.docx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+套件 & Word & HTML & PDF & 推薦場景 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{flextable} & ⭐⭐⭐ & ⭐⭐ & ⭐⭐ & 期刊投稿（Word） \\
+\textbf{gt} & ⭐⭐ & ⭐⭐⭐ & ⭐⭐ & 網頁報告 \\
+\textbf{kableExtra} & ⭐ & ⭐⭐⭐ & ⭐⭐⭐ & LaTeX/PDF \\
+\textbf{huxtable} & ⭐⭐ & ⭐⭐ & ⭐⭐ & 多格式輸出 \\
+\end{longtable}
+
+\textbf{gt} 由 Posit 開發，HTML 輸出最美觀，但 Word 支援仍不如 flextable
+穩定。
+
+\section{環境與套件管理：2025
+年標準工具鏈}\label{ux74b0ux5883ux8207ux5957ux4ef6ux7ba1ux74062025-ux5e74ux6a19ux6e96ux5de5ux5177ux93c8}
+
+\subsection{專案環境管理：renv（packrat
+已棄用）}\label{ux5c08ux6848ux74b0ux5883ux7ba1ux7406renvpackrat-ux5df2ux68c4ux7528}
+
+\textbf{packrat 已被官方軟棄用}，renv 是唯一推薦選擇：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{renv}\SpecialCharTok{::}\FunctionTok{init}\NormalTok{()        }\CommentTok{\# 初始化專案}
+\NormalTok{renv}\SpecialCharTok{::}\FunctionTok{snapshot}\NormalTok{()    }\CommentTok{\# 儲存套件版本}
+\NormalTok{renv}\SpecialCharTok{::}\FunctionTok{restore}\NormalTok{()     }\CommentTok{\# 還原環境}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{renv}: https://cran.r-project.org/package=renv（2024.10 更新）
+\item
+  使用 JSON 格式的 \texttt{renv.lock} 記錄所有套件版本
+\item
+  全域快取節省磁碟空間
+\end{itemize}
+
+\subsection{套件安裝：pak 優於
+install.packages}\label{ux5957ux4ef6ux5b89ux88ddpak-ux512aux65bc-install.packages}
+
+\textbf{pak} 提供平行下載、相依性解析、多來源支援：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pak}\SpecialCharTok{::}\FunctionTok{pak}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)              }\CommentTok{\# CRAN}
+\NormalTok{pak}\SpecialCharTok{::}\FunctionTok{pak}\NormalTok{(}\StringTok{"tidyverse/dplyr"}\NormalTok{)        }\CommentTok{\# GitHub}
+\NormalTok{pak}\SpecialCharTok{::}\FunctionTok{pak}\NormalTok{(}\StringTok{"bioc::Biobase"}\NormalTok{)          }\CommentTok{\# Bioconductor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+功能 & pak & install.packages() \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+平行下載 & ✅ & ❌ \\
+相依性衝突檢查 & ✅ & ❌ \\
+GitHub/Bioconductor & ✅ 原生支援 & ❌ 需額外套件 \\
+系統相依性提示 & ✅ & ❌ \\
+\end{longtable}
+
+\subsection{R 版本管理：rig}\label{r-ux7248ux672cux7ba1ux7406rig}
+
+\textbf{rig}（https://github.com/r-lib/rig）是跨平台的 R 版本管理工具：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{rig}\NormalTok{ add release }\CommentTok{\# 安裝最新穩定版}
+\ExtensionTok{rig}\NormalTok{ add 4.3.2   }\CommentTok{\# 安裝特定版本}
+\ExtensionTok{rig}\NormalTok{ default 4.4 }\CommentTok{\# 設定預設版本}
+\ExtensionTok{rig}\NormalTok{ rstudio 4.3 }\CommentTok{\# 以特定版本啟動 RStudio / Antigravity}
+\end{Highlighting}
+\end{Shaded}
+
+macOS 使用者也可選擇 \textbf{RSwitch} 作為 GUI 替代方案。
+
+\section{現代 R
+語法：管道運算子與資料處理}\label{ux73feux4ee3-r-ux8a9eux6cd5ux7ba1ux9053ux904bux7b97ux5b50ux8207ux8cc7ux6599ux8655ux7406}
+
+\subsection{管道運算子：native \textbar\textgreater{}
+已成主流}\label{ux7ba1ux9053ux904bux7b97ux5b50native-ux5df2ux6210ux4e3bux6d41}
+
+\textbf{2025 社群共識}：新程式碼優先使用 native pipe
+\texttt{\textbar{}\textgreater{}}，magrittr \texttt{\%\textgreater{}\%}
+保留給需要進階 placeholder 功能時使用。
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+特性 & Native \texttt{\textbar{}\textgreater{}} & Magrittr
+\texttt{\%\textgreater{}\%} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+效能 & 零額外開銷 & 微小開銷 \\
+Placeholder & \texttt{\_}（僅限具名參數） & \texttt{.}（彈性） \\
+相依性 & 無（R 4.1+） & 需安裝 magrittr \\
+多次使用 placeholder & ❌ & ✅ \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Native pipe（推薦）}
+\NormalTok{df }\SpecialCharTok{|\textgreater{}} \FunctionTok{filter}\NormalTok{(age }\SpecialCharTok{\textgreater{}} \DecValTok{18}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarise}\NormalTok{(}\AttributeTok{mean\_bmi =} \FunctionTok{mean}\NormalTok{(bmi))}
+
+\CommentTok{\# 需要 magrittr 的情況}
+\NormalTok{df }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ \{}\FunctionTok{paste}\NormalTok{(.}\SpecialCharTok{$}\NormalTok{name, .}\SpecialCharTok{$}\NormalTok{id)\}  }\CommentTok{\# placeholder 多次使用}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{data.table vs dplyr vs
+polars}\label{data.table-vs-dplyr-vs-polars}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+資料規模 & 推薦工具 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textless{} 100 萬列 & dplyr \\
+100 萬 - 1000 萬列 & dtplyr 或 data.table \\
+\textgreater{} 1000 萬列或記憶體不足 & data.table 或 polars \\
+\end{longtable}
+
+\textbf{polars}（https://rpolars.github.io）正在 R
+社群快速成長，效能可達 dplyr 的 \textbf{15-25 倍}，但尚未上架
+CRAN。\textbf{dtplyr} 讓你用 dplyr 語法獲得 data.table 效能。
+
+\subsection{Tidyverse
+核心套件評估}\label{tidyverse-ux6838ux5fc3ux5957ux4ef6ux8a55ux4f30}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+套件 & 狀態 & 說明 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ggplot2 & ⭐ 必備 & 視覺化唯一標準 \\
+dplyr & ⭐ 必備 & 資料處理核心 \\
+tidyr & ⭐ 必備 & pivot\_longer/wider 無可取代 \\
+lubridate & ⭐ 必備 & 日期處理（已納入 tidyverse 核心） \\
+glue & ⭐ 強烈推薦 & 字串插值，比 paste() 直覺 \\
+stringr & ✅ 有用 & 一致的字串處理 API \\
+purrr & ⚠️ 可選 & R 4.1+ 匿名函數 \texttt{\textbackslash{}(x)}
+減少需求 \\
+forcats & ⚠️ 可選 & 因子處理，非必要 \\
+\end{longtable}
+
+\section{非 RStudio / Antigravity
+開發環境設定}\label{ux975e-rstudio-antigravity-ux958bux767cux74b0ux5883ux8a2dux5b9a}
+
+\subsection{VS Code or Antigravity
+完整設定}\label{vs-code-or-antigravity-ux5b8cux6574ux8a2dux5b9a}
+
+\textbf{必要元件}：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{vscode-R 擴展}（REditorSupport）：VS Code 市集安裝
+\item
+  \textbf{languageserver}：\texttt{install.packages("languageserver")}
+\item
+  \textbf{radian}：\texttt{pip\ install\ radian}（增強型 R 終端機）
+\item
+  \textbf{httpgd}：\texttt{devtools::install\_github("nx10/httpgd")}（⚠️
+  2025.04 從 CRAN 移除）
+\end{enumerate}
+
+\textbf{settings.json 設定}：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\{}
+    \DataTypeTok{"r.rterm.mac"}\FunctionTok{:} \StringTok{"/path/to/radian"}\FunctionTok{,}
+    \DataTypeTok{"r.bracketedPaste"}\FunctionTok{:} \KeywordTok{true}\FunctionTok{,}
+    \DataTypeTok{"r.plot.useHttpgd"}\FunctionTok{:} \KeywordTok{true}\FunctionTok{,}
+    \DataTypeTok{"r.session.levelOfObjectDetail"}\FunctionTok{:} \StringTok{"Detailed"}
+\FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Neovim 設定（R.nvim）}\label{neovim-ux8a2dux5b9ar.nvim}
+
+\textbf{Nvim-R 已被 R.nvim 取代}，Neovim 使用者應遷移：
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{{-}{-} lazy.nvim 設定}
+\FunctionTok{require}\OperatorTok{(}\StringTok{"lazy"}\OperatorTok{).}\NormalTok{setup}\OperatorTok{(\{}
+    \OperatorTok{\{} \StringTok{"R{-}nvim/R.nvim"}\OperatorTok{,} \VariableTok{lazy} \OperatorTok{=} \KeywordTok{false} \OperatorTok{\},}
+    \StringTok{"R{-}nvim/cmp{-}r"}\OperatorTok{,}
+    \OperatorTok{\{}
+        \StringTok{"nvim{-}treesitter/nvim{-}treesitter"}\OperatorTok{,}
+        \VariableTok{config} \OperatorTok{=} \KeywordTok{function}\OperatorTok{()}
+            \FunctionTok{require}\OperatorTok{(}\StringTok{"nvim{-}treesitter.configs"}\OperatorTok{).}\NormalTok{setup}\OperatorTok{(\{}
+                \VariableTok{ensure\_installed} \OperatorTok{=} \OperatorTok{\{} \StringTok{"r"}\OperatorTok{,} \StringTok{"markdown"}\OperatorTok{,} \StringTok{"rnoweb"} \OperatorTok{\},}
+                \VariableTok{highlight} \OperatorTok{=} \OperatorTok{\{} \VariableTok{enable} \OperatorTok{=} \KeywordTok{true} \OperatorTok{\},}
+            \OperatorTok{\})}
+        \KeywordTok{end}\OperatorTok{,}
+    \OperatorTok{\},}
+\OperatorTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Positron IDE：Posit
+的新選擇}\label{positron-ideposit-ux7684ux65b0ux9078ux64c7}
+
+\textbf{Positron}（https://posit.co/products/open-source/positron/）於
+2025 年 8 月釋出穩定版，基於 VS Code 但專為資料科學優化：
+
+\begin{itemize}
+\tightlist
+\item
+  R 和 Python 無需安裝擴展即可使用
+\item
+  內建資料框檢視器（類似 RStudio / Antigravity 的 View()）
+\item
+  Posit 官方開發維護
+\end{itemize}
+
+\textbf{適合場景}：R + Python 多語言專案、想要 RStudio / Antigravity
+功能但偏好 VS Code 介面者。
+
+\section{實用工具套件：2025
+必裝清單}\label{ux5be6ux7528ux5de5ux5177ux5957ux4ef62025-ux5fc5ux88ddux6e05ux55ae}
+
+\subsection{資料清理}\label{ux8cc7ux6599ux6e05ux7406}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+套件 & 功能 & 最後更新 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{janitor} & clean\_names()、tabyl()、get\_dupes() & 2024.12 \\
+\textbf{skimr} & skim() 超越 summary() 的資料摘要 & 活躍 \\
+\textbf{tidylog} & dplyr 操作即時回饋 & 活躍 \\
+\end{longtable}
+
+\subsection{檔案操作}\label{ux6a94ux6848ux64cdux4f5c}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{here}：可重現的路徑管理，\texttt{here("data",\ "clinical.csv")}
+\item
+  \textbf{fs}：跨平台檔案操作，取代 base R 的 file.* 函數
+\end{itemize}
+
+\subsection{報告生成：Quarto 是 2025
+新標準}\label{ux5831ux544aux751fux6210quarto-ux662f-2025-ux65b0ux6a19ux6e96}
+
+\textbf{Posit 官方立場}：R Markdown 不會棄用但新功能只加入 Quarto。
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+功能 & Quarto & R Markdown \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+多語言支援 & R、Python、Julia & 以 R 為主 \\
+期刊模板 & 內建多種期刊格式 & 需額外套件 \\
+交叉引用 & 內建 & 需 bookdown \\
+設定檔 & 單一 \_quarto.yml & 多個設定檔 \\
+\end{longtable}
+
+\textbf{建議}：新專案使用 Quarto，現有 R Markdown 專案無需急著遷移。
+
+\subsection{臨床研究專用資源}\label{ux81e8ux5e8aux7814ux7a76ux5c08ux7528ux8cc7ux6e90}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{CRAN Task View: Clinical Trials}:
+  https://cran.r-project.org/view=ClinicalTrials
+\item
+  \textbf{Pharmaverse}（製藥業標準）：admiral、rtables、teal
+\item
+  \textbf{R Consortium Clinical Reporting}:
+  https://rconsortium.github.io/rtrs-wg/
+\end{itemize}
+
+\section{總結：2025
+年臨床研究者推薦套件組合}\label{ux7e3dux7d502025-ux5e74ux81e8ux5e8aux7814ux7a76ux8005ux63a8ux85a6ux5957ux4ef6ux7d44ux5408}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 環境管理}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"renv"}\NormalTok{, }\StringTok{"pak"}\NormalTok{))}
+
+\CommentTok{\# 核心工具}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{, }\StringTok{"here"}\NormalTok{, }\StringTok{"fs"}\NormalTok{, }\StringTok{"janitor"}\NormalTok{, }\StringTok{"skimr"}\NormalTok{, }\StringTok{"rio"}\NormalTok{))}
+
+\CommentTok{\# 臨床表格}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"gtsummary"}\NormalTok{, }\StringTok{"flextable"}\NormalTok{, }\StringTok{"gt"}\NormalTok{))}
+
+\CommentTok{\# 視覺化}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"ggpubr"}\NormalTok{, }\StringTok{"ggsci"}\NormalTok{, }\StringTok{"patchwork"}\NormalTok{, }\StringTok{"ggsurvfit"}\NormalTok{, }\StringTok{"forestploter"}\NormalTok{))}
+
+\CommentTok{\# 流程圖}
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"flowchart"}\NormalTok{, }\StringTok{"consort"}\NormalTok{))}
+
+\CommentTok{\# 報告}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"quarto"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{已過時或不建議使用的套件}\label{ux5df2ux904eux6642ux6216ux4e0dux5efaux8b70ux4f7fux7528ux7684ux5957ux4ef6}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+套件 & 狀態 & 替代方案 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{packrat} & 軟棄用 & renv \\
+\textbf{survminer} & 開發較不活躍 & ggsurvfit \\
+\textbf{plyr} & 已被取代 & dplyr + purrr \\
+\textbf{reshape2} & 已被取代 & tidyr \\
+\textbf{drake} & 已被取代 & targets \\
+\textbf{Nvim-R} & Neovim 用戶應遷移 & R.nvim \\
+\end{longtable}
+
+
+
+
+\end{document}
