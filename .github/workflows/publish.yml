@@ -38,6 +38,8 @@ jobs:
             any::gtsummary
             any::dplyr
             any::gt
+            any::survival
+            any::ggsurvfit
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
