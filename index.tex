@@ -247,11 +247,10 @@
 \begin{itemize}
 \tightlist
 \item
-  \href{https://htlin222.github.io/2025-12-05-R-Basics/}{本書連結}
+  \href{https://htlin222.github.io/learn-r-with-ai/}{本書連結}
 \item
-  \href{https://github.com/htlin222/2025-12-05-R-Basics}{Github Repo}
-  以及
-  \href{https://github.com/htlin222/2025-12-05-R-Basics/archive/refs/heads/main.zip}{下載程式碼的連結}
+  \href{https://github.com/htlin222/learn-r-with-ai}{Github Repo} 以及
+  \href{https://github.com/htlin222/learn-r-with-ai/archive/refs/heads/main.zip}{下載程式碼的連結}
 \end{itemize}
 
 \section*{課程目標}\label{ux8ab2ux7a0bux76eeux6a19}
@@ -470,7 +469,7 @@ App」來比喻嗎？另外，\texttt{library()} 這個指令是在做什麼？
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  怎麼讀取這個檔案到 R 裡面
+  怎麼讀取這個檔案到 R 裡面，並存成一個叫做 \texttt{my\_data} 的變數
 \item
   怎麼看前幾筆資料確認有讀成功
 \end{enumerate}
@@ -1296,36 +1295,41 @@ alternative hypothesis: true location shift is not equal to 0
 \item
   這個結果在臨床上可能代表什麼
 \end{enumerate}
+
+另外，請幫我：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  用 broom 套件的 tidy() 函數把統計結果整理成乾淨的表格
+\item
+  用 capture.output() 或 sink() 把所有結果儲存成純文字檔 report.txt
+\item
+  產出一份完整的分析報告，包含描述性統計、檢定結果、效應量
+\end{enumerate}
 \end{quote}
 
 \subsection{結果解讀}\label{ux7d50ux679cux89e3ux8b80}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# 整理結果摘要}
+\CommentTok{\# 載入必要套件}
 \FunctionTok{library}\NormalTok{(dplyr)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
+\CommentTok{\# 安裝並載入 broom 套件（用於整理統計結果）}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(broom, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"broom"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+\NormalTok{\}}
+\FunctionTok{library}\NormalTok{(broom)}
 
-Attaching package: 'dplyr'
-\end{verbatim}
+\CommentTok{\# 安裝並載入 effsize 套件（用於計算效應量）}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(effsize, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"effsize"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+\NormalTok{\}}
+\FunctionTok{library}\NormalTok{(effsize)}
 
-\begin{verbatim}
-The following objects are masked from 'package:stats':
-
-    filter, lag
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
+\CommentTok{\# 整理結果摘要}
 \NormalTok{result\_summary }\OtherTok{\textless{}{-}}\NormalTok{ my\_data }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{group\_by}\NormalTok{(treatment) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{summarise}\NormalTok{(}
@@ -1361,11 +1365,58 @@ The following objects are masked from 'package:base':
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# 使用 broom::tidy() 整理 t{-}test 結果}
+\NormalTok{t\_test\_tidy }\OtherTok{\textless{}{-}} \FunctionTok{tidy}\NormalTok{(t\_test\_result)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"T{-}test 結果（broom 整理後）："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "T-test 結果（broom 整理後）："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(t\_test\_tidy)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 1 x 10
+  estimate estimate1 estimate2 statistic  p.value parameter conf.low conf.high
+     <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>    <dbl>     <dbl>
+1    -6.98      4.58      11.6     -19.1 3.54e-29      68.5    -7.71     -6.25
+# i 2 more variables: method <chr>, alternative <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 使用 broom::tidy() 整理 Wilcoxon 結果}
+\NormalTok{wilcox\_tidy }\OtherTok{\textless{}{-}} \FunctionTok{tidy}\NormalTok{(wilcox\_result)}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Wilcoxon test 結果（broom 整理後）："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Wilcoxon test 結果（broom 整理後）："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(wilcox\_tidy)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 1 x 4
+  statistic  p.value method                                          alternative
+      <dbl>    <dbl> <chr>                                           <chr>      
+1         0 4.63e-18 Wilcoxon rank sum test with continuity correct~ two.sided  
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# 計算效應量（Cohen\textquotesingle{}s d）}
-\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(effsize, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
-  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"effsize"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
-  \FunctionTok{library}\NormalTok{(effsize)}
-\NormalTok{\}}
 \NormalTok{cohen\_d }\OtherTok{\textless{}{-}} \FunctionTok{cohen.d}\NormalTok{(los }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ my\_data)}
 \FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"效應量 (Cohen\textquotesingle{}s d):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(cohen\_d}\SpecialCharTok{$}\NormalTok{estimate, }\DecValTok{3}\NormalTok{)))}
 \end{Highlighting}
@@ -1380,7 +1431,7 @@ The following objects are masked from 'package:base':
 \CommentTok{\# 解釋}
 \ControlFlowTok{if}\NormalTok{ (t\_test\_result}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
   \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組在統計上有顯著差異 (p \textless{} 0.05)"}\NormalTok{)}
-  \FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"B 組的平均住院天數比 A 組多約"}\NormalTok{, }
+  \FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"B 組的平均住院天數比 A 組多約"}\NormalTok{,}
               \FunctionTok{round}\NormalTok{(}\FunctionTok{diff}\NormalTok{(result\_summary}\SpecialCharTok{$}\NormalTok{mean\_los), }\DecValTok{1}\NormalTok{), }\StringTok{"天"}\NormalTok{))}
 \NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
   \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組在統計上無顯著差異 (p \textgreater{}= 0.05)"}\NormalTok{)}
@@ -1391,6 +1442,156 @@ The following objects are masked from 'package:base':
 \begin{verbatim}
 [1] "結論：兩組在統計上有顯著差異 (p < 0.05)"
 [1] "B 組的平均住院天數比 A 組多約 7 天"
+\end{verbatim}
+
+\subsection{產出純文字報告}\label{ux7522ux51faux7d14ux6587ux5b57ux5831ux544a}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 方法一：使用 sink() 將所有輸出導向檔案}
+\FunctionTok{sink}\NormalTok{(}\StringTok{"report.txt"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"="} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"        統計分析報告：兩組治療住院天數比較}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"="} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"報告產生時間："}\NormalTok{, }\FunctionTok{format}\NormalTok{(}\FunctionTok{Sys.time}\NormalTok{(), }\StringTok{"\%Y{-}\%m{-}\%d \%H:\%M:\%S"}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"一、描述性統計}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(result\_summary)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"二、常態性檢定（Shapiro{-}Wilk Test）}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"A 組 p{-}value:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(shapiro\_a}\SpecialCharTok{$}\NormalTok{p.value, }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"B 組 p{-}value:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(shapiro\_b}\SpecialCharTok{$}\NormalTok{p.value, }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{ (shapiro\_a}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textgreater{}=} \FloatTok{0.05} \SpecialCharTok{\&}\NormalTok{ shapiro\_b}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textgreater{}=} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"結論：兩組資料均符合常態分佈假設}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"結論：至少一組資料不符合常態分佈假設}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"三、統計檢定結果}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{【T{-}test 結果】}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"檢定方法："}\NormalTok{, t\_test\_tidy}\SpecialCharTok{$}\NormalTok{method, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"t 統計量："}\NormalTok{, }\FunctionTok{round}\NormalTok{(t\_test\_tidy}\SpecialCharTok{$}\NormalTok{statistic, }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"自由度："}\NormalTok{, }\FunctionTok{round}\NormalTok{(t\_test\_tidy}\SpecialCharTok{$}\NormalTok{parameter, }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"p{-}value："}\NormalTok{, }\FunctionTok{format}\NormalTok{(t\_test\_tidy}\SpecialCharTok{$}\NormalTok{p.value, }\AttributeTok{digits =} \DecValTok{4}\NormalTok{, }\AttributeTok{scientific =} \ConstantTok{FALSE}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"95\% 信賴區間：["}\NormalTok{, }\FunctionTok{round}\NormalTok{(t\_test\_tidy}\SpecialCharTok{$}\NormalTok{conf.low, }\DecValTok{2}\NormalTok{), }\StringTok{", "}\NormalTok{,}
+    \FunctionTok{round}\NormalTok{(t\_test\_tidy}\SpecialCharTok{$}\NormalTok{conf.high, }\DecValTok{2}\NormalTok{), }\StringTok{"]}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"兩組平均差異："}\NormalTok{, }\FunctionTok{round}\NormalTok{(t\_test\_tidy}\SpecialCharTok{$}\NormalTok{estimate1 }\SpecialCharTok{{-}}\NormalTok{ t\_test\_tidy}\SpecialCharTok{$}\NormalTok{estimate2, }\DecValTok{2}\NormalTok{), }\StringTok{"天}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{【Wilcoxon Rank{-}Sum Test 結果】}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"檢定方法："}\NormalTok{, wilcox\_tidy}\SpecialCharTok{$}\NormalTok{method, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"W 統計量："}\NormalTok{, wilcox\_tidy}\SpecialCharTok{$}\NormalTok{statistic, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"p{-}value："}\NormalTok{, }\FunctionTok{format}\NormalTok{(wilcox\_tidy}\SpecialCharTok{$}\NormalTok{p.value, }\AttributeTok{digits =} \DecValTok{4}\NormalTok{, }\AttributeTok{scientific =} \ConstantTok{FALSE}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"四、效應量}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Cohen\textquotesingle{}s d："}\NormalTok{, }\FunctionTok{round}\NormalTok{(cohen\_d}\SpecialCharTok{$}\NormalTok{estimate, }\DecValTok{3}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"效應量大小："}\NormalTok{, cohen\_d}\SpecialCharTok{$}\NormalTok{magnitude, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{效應量解讀標準：}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"  |d| \textless{} 0.2：微小效應}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"  0.2 \textless{}= |d| \textless{} 0.5：小效應}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"  0.5 \textless{}= |d| \textless{} 0.8：中效應}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"  |d| \textgreater{}= 0.8：大效應}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"五、結論}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-}"} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{ (t\_test\_result}\SpecialCharTok{$}\NormalTok{p.value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"統計結論：兩組住院天數有顯著差異 (p \textless{} 0.05)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"臨床意義：B 組的平均住院天數比 A 組多約"}\NormalTok{,}
+      \FunctionTok{round}\NormalTok{(}\FunctionTok{diff}\NormalTok{(result\_summary}\SpecialCharTok{$}\NormalTok{mean\_los), }\DecValTok{1}\NormalTok{), }\StringTok{"天}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"統計結論：兩組住院天數無顯著差異 (p \textgreater{}= 0.05)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"臨床意義：目前證據不足以證明兩種治療在住院天數上有差異}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"="} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"報告結束}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"="} \SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{60}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste}\NormalTok{(}\AttributeTok{collapse =} \StringTok{""}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+\FunctionTok{sink}\NormalTok{()  }\CommentTok{\# 關閉 sink，恢復正常輸出}
+
+\CommentTok{\# 確認檔案已產生}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"報告已儲存至 report.txt}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+報告已儲存至 report.txt
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"檔案大小："}\NormalTok{, }\FunctionTok{file.info}\NormalTok{(}\StringTok{"report.txt"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{size, }\StringTok{"bytes}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+檔案大小： 2162 bytes
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 顯示報告內容預覽}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{{-}{-}{-} 報告內容預覽 {-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+--- 報告內容預覽 ---
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{readLines}\NormalTok{(}\StringTok{"report.txt"}\NormalTok{, }\AttributeTok{n =} \DecValTok{20}\NormalTok{), }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+============================================================ 
+        統計分析報告：兩組治療住院天數比較
+============================================================ 
+報告產生時間： 2025-12-05 20:51:41 
+
+------------------------------------------------------------ 
+一、描述性統計
+------------------------------------------------------------ 
+# A tibble: 2 x 7
+  treatment     n mean_los sd_los median_los min_los max_los
+  <chr>     <int>    <dbl>  <dbl>      <dbl>   <int>   <int>
+1 A            50     4.58   1.07          5       3       7
+2 B            50    11.6    2.35         11       8      17
+
+------------------------------------------------------------ 
+二、常態性檢定（Shapiro-Wilk Test）
+------------------------------------------------------------ 
+A 組 p-value: 0.0004 
+B 組 p-value: 0.0829 
+結論：至少一組資料不符合常態分佈假設
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"...}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+...
 \end{verbatim}
 
 \section{任務
@@ -1607,6 +1808,521 @@ odds ratio
 \begin{verbatim}
 [1] "結論：兩組的性別分佈無顯著差異"
 \end{verbatim}
+
+\section{任務 24：存活分析 (Survival
+Analysis)}\label{ux4efbux52d9-24ux5b58ux6d3bux5206ux6790-survival-analysis}
+
+在臨床研究中，我們經常需要分析「時間到事件」的資料，例如：
+
+\begin{itemize}
+\tightlist
+\item
+  病人從診斷到死亡的時間
+\item
+  從治療開始到疾病復發的時間
+\item
+  從手術到再住院的時間
+\end{itemize}
+
+這類分析稱為 \textbf{存活分析 (Survival
+Analysis)}，是臨床研究中非常重要的統計方法。
+
+\subsection{存活分析的特殊之處}\label{ux5b58ux6d3bux5206ux6790ux7684ux7279ux6b8aux4e4bux8655}
+
+存活分析資料有一個特點：\textbf{設限 (Censoring)}
+
+\begin{itemize}
+\tightlist
+\item
+  有些病人在研究結束時還活著（我們不知道他們最終會活多久）
+\item
+  有些病人中途失聯（lost to follow-up）
+\item
+  這些「不完整」的觀察值不能直接丟掉，需要特殊處理
+\end{itemize}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我有一個存活分析的資料集
+\texttt{patient\_data\_for\_survival.csv}，包含：
+
+\begin{itemize}
+\tightlist
+\item
+  patient\_id：病人編號
+\item
+  treatment：治療組別（Drug\_A vs Drug\_B）
+\item
+  age：年齡
+\item
+  gender：性別
+\item
+  stage：癌症期別（I-IV）
+\item
+  time：追蹤時間（月）
+\item
+  status：事件狀態（1=死亡，0=存活/設限）
+\end{itemize}
+
+請幫我：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  用 survival 套件做 Kaplan-Meier 存活曲線
+\item
+  比較兩個治療組的存活率有沒有差異（log-rank test）
+\item
+  畫出漂亮的存活曲線圖
+\end{enumerate}
+\end{quote}
+
+\subsection{讀取存活分析資料}\label{ux8b80ux53d6ux5b58ux6d3bux5206ux6790ux8cc7ux6599}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 讀取存活分析資料}
+\NormalTok{survival\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"patient\_data\_for\_survival.csv"}\NormalTok{)}
+
+\CommentTok{\# 檢視資料結構}
+\FunctionTok{str}\NormalTok{(survival\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   100 obs. of  7 variables:
+ $ patient_id: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ treatment : chr  "Drug_A" "Drug_B" "Drug_B" "Drug_B" ...
+ $ age       : int  64 45 58 73 64 73 68 50 52 59 ...
+ $ gender    : chr  "F" "F" "M" "M" ...
+ $ stage     : chr  "III" "III" "II" "I" ...
+ $ time      : num  7.8 16.9 17.7 32.2 22 2.4 2.2 36 1.9 12.1 ...
+ $ status    : int  1 1 1 1 1 1 1 0 0 1 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 查看前幾筆}
+\FunctionTok{head}\NormalTok{(survival\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  patient_id treatment age gender stage time status
+1          1    Drug_A  64      F   III  7.8      1
+2          2    Drug_B  45      F   III 16.9      1
+3          3    Drug_B  58      M    II 17.7      1
+4          4    Drug_B  73      M     I 32.2      1
+5          5    Drug_A  64      M    II 22.0      1
+6          6    Drug_A  73      F   III  2.4      1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 確認事件分佈}
+\FunctionTok{table}\NormalTok{(survival\_data}\SpecialCharTok{$}\NormalTok{treatment, survival\_data}\SpecialCharTok{$}\NormalTok{status)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+        
+          0  1
+  Drug_A 16 36
+  Drug_B 15 33
+\end{verbatim}
+
+\subsection{Kaplan-Meier
+存活分析}\label{kaplan-meier-ux5b58ux6d3bux5206ux6790}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 安裝並載入必要套件}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(survival, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"survival"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(ggsurvfit, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"ggsurvfit"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+\NormalTok{\}}
+
+\FunctionTok{library}\NormalTok{(survival)}
+\FunctionTok{library}\NormalTok{(ggsurvfit)}
+
+\CommentTok{\# 建立存活物件}
+\CommentTok{\# Surv(time, status) 會建立一個存活時間物件}
+\CommentTok{\# time = 追蹤時間, status = 事件是否發生 (1=是, 0=否/設限)}
+\NormalTok{surv\_obj }\OtherTok{\textless{}{-}} \FunctionTok{Surv}\NormalTok{(}\AttributeTok{time =}\NormalTok{ survival\_data}\SpecialCharTok{$}\NormalTok{time, }\AttributeTok{event =}\NormalTok{ survival\_data}\SpecialCharTok{$}\NormalTok{status)}
+
+\CommentTok{\# 看看存活物件長什麼樣子}
+\FunctionTok{head}\NormalTok{(surv\_obj, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1]  7.8  16.9  17.7  32.2  22.0   2.4   2.2  36.0+  1.9+ 12.1 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 注意：數字後面的 "+" 表示該觀察值是 censored（設限）}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{繪製 Kaplan-Meier
+存活曲線}\label{ux7e6aux88fd-kaplan-meier-ux5b58ux6d3bux66f2ux7dda}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 使用 ggsurvfit 繪製存活曲線}
+\CommentTok{\# survfit2() 是 ggsurvfit 的專用函數，可以更好地追蹤變數名稱}
+\FunctionTok{survfit2}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(time, status) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ survival\_data) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{ggsurvfit}\NormalTok{(}\AttributeTok{linewidth =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{add\_confidence\_interval}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{add\_risktable}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{add\_pvalue}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Log{-}rank \{p.value\}"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{add\_quantile}\NormalTok{(}\AttributeTok{y\_value =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"gray50"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#E7B800"}\NormalTok{, }\StringTok{"\#2E9FDF"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#E7B800"}\NormalTok{, }\StringTok{"\#2E9FDF"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"追蹤時間（月）"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"存活機率"}\NormalTok{,}
+    \AttributeTok{title =} \StringTok{"Kaplan{-}Meier 存活曲線：Drug A vs Drug B"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{,}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part5_files/figure-pdf/survival-km-plot-1.pdf}}
+
+\subsection{查看存活率摘要}\label{ux67e5ux770bux5b58ux6d3bux7387ux6458ux8981}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 依照治療組別做 Kaplan{-}Meier 分析}
+\NormalTok{km\_fit }\OtherTok{\textless{}{-}} \FunctionTok{survfit}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(time, status) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ survival\_data)}
+
+\CommentTok{\# 查看摘要（6個月、12個月、24個月的存活率）}
+\FunctionTok{summary}\NormalTok{(km\_fit, }\AttributeTok{times =} \FunctionTok{c}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{24}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Call: survfit(formula = Surv(time, status) ~ treatment, data = survival_data)
+
+                treatment=Drug_A 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    6     40       9    0.823  0.0536        0.725        0.935
+   12     30       9    0.634  0.0690        0.512        0.785
+   24     19      11    0.402  0.0709        0.284        0.568
+
+                treatment=Drug_B 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    6     34      13    0.724  0.0651        0.607        0.864
+   12     27       7    0.575  0.0721        0.450        0.735
+   24     19       8    0.405  0.0716        0.286        0.573
+\end{verbatim}
+
+\subsection{Log-Rank
+Test：比較兩組存活率}\label{log-rank-testux6bd4ux8f03ux5169ux7d44ux5b58ux6d3bux7387}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Log{-}rank test（最常用的存活曲線比較方法）}
+\NormalTok{logrank\_test }\OtherTok{\textless{}{-}} \FunctionTok{survdiff}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(time, status) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ survival\_data)}
+\FunctionTok{print}\NormalTok{(logrank\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Call:
+survdiff(formula = Surv(time, status) ~ treatment, data = survival_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+treatment=Drug_A 52       36     35.1    0.0219    0.0451
+treatment=Drug_B 48       33     33.9    0.0228    0.0451
+
+ Chisq= 0  on 1 degrees of freedom, p= 0.8 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 提取 p{-}value}
+\NormalTok{logrank\_pvalue }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{pchisq}\NormalTok{(logrank\_test}\SpecialCharTok{$}\NormalTok{chisq, }\FunctionTok{length}\NormalTok{(logrank\_test}\SpecialCharTok{$}\NormalTok{n) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Log{-}rank test p{-}value:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(logrank\_pvalue, }\DecValTok{4}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Log-rank test p-value: 0.8319"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 解讀結果}
+\ControlFlowTok{if}\NormalTok{ (logrank\_pvalue }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組的存活曲線有顯著差異 (p \textless{} 0.05)"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"結論：兩組的存活曲線無顯著差異 (p \textgreater{}= 0.05)"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "結論：兩組的存活曲線無顯著差異 (p >= 0.05)"
+\end{verbatim}
+
+\subsection{計算中位存活時間}\label{ux8a08ux7b97ux4e2dux4f4dux5b58ux6d3bux6642ux9593}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 計算各組的中位存活時間}
+\FunctionTok{print}\NormalTok{(}\StringTok{"各組中位存活時間（月）："}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "各組中位存活時間（月）："
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(km\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Call: survfit(formula = Surv(time, status) ~ treatment, data = survival_data)
+
+                  n events median 0.95LCL 0.95UCL
+treatment=Drug_A 52     36   17.5    12.1    27.9
+treatment=Drug_B 48     33   17.7     9.0    32.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 使用 ggsurvfit 的 tidy 方式呈現}
+\FunctionTok{survfit2}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(time, status) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment, }\AttributeTok{data =}\NormalTok{ survival\_data) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{tidy\_survfit}\NormalTok{() }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{head}\NormalTok{(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 10 x 16
+    time n.risk n.event n.censor cum.event cum.censor estimate std.error
+   <dbl>  <dbl>   <dbl>    <dbl>     <dbl>      <dbl>    <dbl>     <dbl>
+ 1   0       52       0        0         0          0    1        0     
+ 2   0.5     52       2        0         2          0    0.962    0.0277
+ 3   0.7     50       2        0         4          0    0.923    0.0400
+ 4   1.3     48       0        1         4          1    0.923    0.0400
+ 5   1.8     47       1        0         5          1    0.903    0.0454
+ 6   2       46       0        1         5          2    0.903    0.0454
+ 7   2.4     45       1        0         6          2    0.883    0.0507
+ 8   2.9     44       1        0         7          2    0.863    0.0557
+ 9   3.1     43       1        0         8          2    0.843    0.0604
+10   5.5     42       1        0         9          2    0.823    0.0651
+# i 8 more variables: conf.high <dbl>, conf.low <dbl>, strata <fct>,
+#   estimate_type <chr>, estimate_type_label <chr>, monotonicity_type <chr>,
+#   strata_label <chr>, conf.level <dbl>
+\end{verbatim}
+
+\subsection{進階：Cox
+比例風險模型}\label{ux9032ux968ecox-ux6bd4ux4f8bux98a8ux96aaux6a21ux578b}
+
+📋 \textbf{複製這段話，貼給 AI：}
+
+\begin{quote}
+我想要做更進階的存活分析，考慮多個變數（治療、年齡、性別、期別）對存活的影響。請幫我用
+Cox proportional hazards model 分析，並解釋 Hazard Ratio 的意義。
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cox 比例風險模型}
+\CommentTok{\# 可以同時考慮多個變數對存活的影響}
+\NormalTok{cox\_model }\OtherTok{\textless{}{-}} \FunctionTok{coxph}\NormalTok{(}
+  \FunctionTok{Surv}\NormalTok{(time, status) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ stage,}
+  \AttributeTok{data =}\NormalTok{ survival\_data}
+\NormalTok{)}
+
+\CommentTok{\# 查看模型結果}
+\FunctionTok{summary}\NormalTok{(cox\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Call:
+coxph(formula = Surv(time, status) ~ treatment + age + gender + 
+    stage, data = survival_data)
+
+  n= 100, number of events= 69 
+
+                    coef exp(coef) se(coef)      z  Pr(>|z|)    
+treatmentDrug_B -0.24768   0.78061  0.26698 -0.928  0.353548    
+age              0.03947   1.04026  0.01122  3.518  0.000435 ***
+genderM         -0.02607   0.97426  0.26378 -0.099  0.921265    
+stageII          0.43456   1.54429  0.43274  1.004  0.315280    
+stageIII         0.98111   2.66742  0.40840  2.402  0.016291 *  
+stageIV          1.77548   5.90313  0.44506  3.989 0.0000663 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+                exp(coef) exp(-coef) lower .95 upper .95
+treatmentDrug_B    0.7806     1.2811    0.4626     1.317
+age                1.0403     0.9613    1.0176     1.063
+genderM            0.9743     1.0264    0.5810     1.634
+stageII            1.5443     0.6475    0.6613     3.606
+stageIII           2.6674     0.3749    1.1980     5.939
+stageIV            5.9031     0.1694    2.4674    14.123
+
+Concordance= 0.682  (se = 0.029 )
+Likelihood ratio test= 29.63  on 6 df,   p=0.00005
+Wald test            = 28.58  on 6 df,   p=0.00007
+Score (logrank) test = 30.83  on 6 df,   p=0.00003
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 整理成漂亮的表格}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(gtsummary, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"gtsummary"}\NormalTok{, }\AttributeTok{repos =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{)}
+\NormalTok{\}}
+\FunctionTok{library}\NormalTok{(gtsummary)}
+
+\NormalTok{cox\_model }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_regression}\NormalTok{(}
+    \AttributeTok{exponentiate =} \ConstantTok{TRUE}\NormalTok{,  }\CommentTok{\# 將係數轉換為 Hazard Ratio}
+    \AttributeTok{label =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{      treatment }\SpecialCharTok{\textasciitilde{}} \StringTok{"治療組別"}\NormalTok{,}
+\NormalTok{      age }\SpecialCharTok{\textasciitilde{}} \StringTok{"年齡"}\NormalTok{,}
+\NormalTok{      gender }\SpecialCharTok{\textasciitilde{}} \StringTok{"性別"}\NormalTok{,}
+\NormalTok{      stage }\SpecialCharTok{\textasciitilde{}} \StringTok{"癌症期別"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bold\_p}\NormalTok{(}\AttributeTok{t =} \FloatTok{0.05}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_header}\NormalTok{(}\AttributeTok{label =} \StringTok{"**變數**"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_caption}\NormalTok{(}\StringTok{"**Cox 比例風險模型結果**"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{變數} & \textbf{HR} & \textbf{95\% CI} & \textbf{p-value} \\ 
+\midrule\addlinespace[2.5pt]
+治療組別 &  &  &  \\ 
+    Drug\_A & \textemdash & \textemdash &  \\ 
+    Drug\_B & 0.78 & 0.46, 1.32 & 0.4 \\ 
+年齡 & 1.04 & 1.02, 1.06 & {\bfseries <0.001} \\ 
+性別 &  &  &  \\ 
+    F & \textemdash & \textemdash &  \\ 
+    M & 0.97 & 0.58, 1.63 & >0.9 \\ 
+癌症期別 &  &  &  \\ 
+    I & \textemdash & \textemdash &  \\ 
+    II & 1.54 & 0.66, 3.61 & 0.3 \\ 
+    III & 2.67 & 1.20, 5.94 & {\bfseries 0.016} \\ 
+    IV & 5.90 & 2.47, 14.1 & {\bfseries <0.001} \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+Abbreviations: CI = Confidence Interval, HR = Hazard Ratio\\
+\end{minipage}
+\end{table}
+
+\subsection{存活分析結果解讀}\label{ux5b58ux6d3bux5206ux6790ux7d50ux679cux89e3ux8b80}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 提取 Hazard Ratio 和信賴區間}
+\NormalTok{cox\_summary }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(cox\_model)}
+\NormalTok{hr }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(cox\_summary}\SpecialCharTok{$}\NormalTok{coefficients[, }\StringTok{"coef"}\NormalTok{])}
+\NormalTok{ci\_lower }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(cox\_summary}\SpecialCharTok{$}\NormalTok{coefficients[, }\StringTok{"coef"}\NormalTok{] }\SpecialCharTok{{-}} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ cox\_summary}\SpecialCharTok{$}\NormalTok{coefficients[, }\StringTok{"se(coef)"}\NormalTok{])}
+\NormalTok{ci\_upper }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(cox\_summary}\SpecialCharTok{$}\NormalTok{coefficients[, }\StringTok{"coef"}\NormalTok{] }\SpecialCharTok{+} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ cox\_summary}\SpecialCharTok{$}\NormalTok{coefficients[, }\StringTok{"se(coef)"}\NormalTok{])}
+
+\CommentTok{\# 整理成表格}
+\NormalTok{hr\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Variable =} \FunctionTok{names}\NormalTok{(hr),}
+  \AttributeTok{HR =} \FunctionTok{round}\NormalTok{(hr, }\DecValTok{2}\NormalTok{),}
+  \AttributeTok{CI\_Lower =} \FunctionTok{round}\NormalTok{(ci\_lower, }\DecValTok{2}\NormalTok{),}
+  \AttributeTok{CI\_Upper =} \FunctionTok{round}\NormalTok{(ci\_upper, }\DecValTok{2}\NormalTok{),}
+  \AttributeTok{p\_value =} \FunctionTok{round}\NormalTok{(cox\_summary}\SpecialCharTok{$}\NormalTok{coefficients[, }\StringTok{"Pr(\textgreater{}|z|)"}\NormalTok{], }\DecValTok{4}\NormalTok{)}
+\NormalTok{)}
+\FunctionTok{print}\NormalTok{(hr\_table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                       Variable   HR CI_Lower CI_Upper p_value
+treatmentDrug_B treatmentDrug_B 0.78     0.46     1.32  0.3535
+age                         age 1.04     1.02     1.06  0.0004
+genderM                 genderM 0.97     0.58     1.63  0.9213
+stageII                 stageII 1.54     0.66     3.61  0.3153
+stageIII               stageIII 2.67     1.20     5.94  0.0163
+stageIV                 stageIV 5.90     2.47    14.12  0.0001
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== Hazard Ratio 解讀指南 ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+=== Hazard Ratio 解讀指南 ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"HR = 1：該因素對存活沒有影響}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+HR = 1：該因素對存活沒有影響
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"HR \textgreater{} 1：該因素會增加死亡風險（例如 HR=2 表示風險增加一倍）}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+HR > 1：該因素會增加死亡風險（例如 HR=2 表示風險增加一倍）
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"HR \textless{} 1：該因素會降低死亡風險（例如 HR=0.5 表示風險減半）}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+HR < 1：該因素會降低死亡風險（例如 HR=0.5 表示風險減半）
+\end{verbatim}
+
+\subsection{小結：存活分析的關鍵概念}\label{ux5c0fux7d50ux5b58ux6d3bux5206ux6790ux7684ux95dcux9375ux6982ux5ff5}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+概念 & 說明 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Censoring（設限）} & 觀察結束時事件尚未發生（例如病人還活著） \\
+\textbf{Kaplan-Meier} & 估計存活機率隨時間變化的曲線 \\
+\textbf{Log-rank test} & 比較兩組或多組存活曲線是否有差異 \\
+\textbf{Hazard Ratio (HR)} & 相對風險，HR=2 表示風險是對照組的 2 倍 \\
+\textbf{Cox model} & 可同時考慮多個變數對存活的影響 \\
+\end{longtable}
 
 \bookmarksetup{startatroot}
 

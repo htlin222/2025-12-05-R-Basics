@@ -64,22 +64,43 @@ print(wilcox_result)
 
 > 這是我的統計檢定結果：
 > 【貼上輸出】
-> 
+>
 > 請用白話文解釋這個結果，包括：
-> 
+>
 > 1. 兩組有沒有顯著差異
 > 2. p-value 是什麼意思
 > 3. 這個結果在臨床上可能代表什麼
+>
+> 另外，請幫我：
+>
+> 1. 用 broom 套件的 tidy() 函數把統計結果整理成乾淨的表格
+> 2. 用 capture.output() 或 sink() 把所有結果儲存成純文字檔 report.txt
+> 3. 產出一份完整的分析報告，包含描述性統計、檢定結果、效應量
 
 ### 結果解讀
 
 ```{r}
 #| label: interpret-results
 #| echo: true
+#| message: false
+#| warning: false
 
-# 整理結果摘要
+# 載入必要套件
 library(dplyr)
 
+# 安裝並載入 broom 套件（用於整理統計結果）
+if (!require(broom, quietly = TRUE)) {
+  install.packages("broom", repos = "https://cloud.r-project.org/")
+}
+library(broom)
+
+# 安裝並載入 effsize 套件（用於計算效應量）
+if (!require(effsize, quietly = TRUE)) {
+  install.packages("effsize", repos = "https://cloud.r-project.org/")
+}
+library(effsize)
+
+# 整理結果摘要
 result_summary <- my_data %>%
   group_by(treatment) %>%
   summarise(
@@ -94,22 +115,122 @@ result_summary <- my_data %>%
 print("各組描述性統計：")
 print(result_summary)
 
+# 使用 broom::tidy() 整理 t-test 結果
+t_test_tidy <- tidy(t_test_result)
+print("T-test 結果（broom 整理後）：")
+print(t_test_tidy)
+
+# 使用 broom::tidy() 整理 Wilcoxon 結果
+wilcox_tidy <- tidy(wilcox_result)
+print("Wilcoxon test 結果（broom 整理後）：")
+print(wilcox_tidy)
+
 # 計算效應量（Cohen's d）
-if (!require(effsize, quietly = TRUE)) {
-  install.packages("effsize", repos = "https://cloud.r-project.org/")
-  library(effsize)
-}
 cohen_d <- cohen.d(los ~ treatment, data = my_data)
 print(paste("效應量 (Cohen's d):", round(cohen_d$estimate, 3)))
 
 # 解釋
 if (t_test_result$p.value < 0.05) {
   print("結論：兩組在統計上有顯著差異 (p < 0.05)")
-  print(paste("B 組的平均住院天數比 A 組多約", 
+  print(paste("B 組的平均住院天數比 A 組多約",
               round(diff(result_summary$mean_los), 1), "天"))
 } else {
   print("結論：兩組在統計上無顯著差異 (p >= 0.05)")
 }
+```
+
+### 產出純文字報告
+
+```{r}
+#| label: export-report
+#| echo: true
+#| message: false
+#| warning: false
+
+# 方法一：使用 sink() 將所有輸出導向檔案
+sink("report.txt")
+
+cat("=" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("        統計分析報告：兩組治療住院天數比較\n")
+cat("=" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("報告產生時間：", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n\n")
+
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("一、描述性統計\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+print(result_summary)
+
+cat("\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("二、常態性檢定（Shapiro-Wilk Test）\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("A 組 p-value:", round(shapiro_a$p.value, 4), "\n")
+cat("B 組 p-value:", round(shapiro_b$p.value, 4), "\n")
+if (shapiro_a$p.value >= 0.05 & shapiro_b$p.value >= 0.05) {
+  cat("結論：兩組資料均符合常態分佈假設\n")
+} else {
+  cat("結論：至少一組資料不符合常態分佈假設\n")
+}
+
+cat("\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("三、統計檢定結果\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+
+cat("\n【T-test 結果】\n")
+cat("檢定方法：", t_test_tidy$method, "\n")
+cat("t 統計量：", round(t_test_tidy$statistic, 4), "\n")
+cat("自由度：", round(t_test_tidy$parameter, 2), "\n")
+cat("p-value：", format(t_test_tidy$p.value, digits = 4, scientific = FALSE), "\n")
+cat("95% 信賴區間：[", round(t_test_tidy$conf.low, 2), ", ",
+    round(t_test_tidy$conf.high, 2), "]\n")
+cat("兩組平均差異：", round(t_test_tidy$estimate1 - t_test_tidy$estimate2, 2), "天\n")
+
+cat("\n【Wilcoxon Rank-Sum Test 結果】\n")
+cat("檢定方法：", wilcox_tidy$method, "\n")
+cat("W 統計量：", wilcox_tidy$statistic, "\n")
+cat("p-value：", format(wilcox_tidy$p.value, digits = 4, scientific = FALSE), "\n")
+
+cat("\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("四、效應量\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("Cohen's d：", round(cohen_d$estimate, 3), "\n")
+cat("效應量大小：", as.character(cohen_d$magnitude), "\n")
+cat("\n效應量解讀標準：\n")
+cat("  |d| < 0.2：微小效應\n")
+cat("  0.2 <= |d| < 0.5：小效應\n")
+cat("  0.5 <= |d| < 0.8：中效應\n")
+cat("  |d| >= 0.8：大效應\n")
+
+cat("\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("五、結論\n")
+cat("-" %>% rep(60) %>% paste(collapse = ""), "\n")
+if (t_test_result$p.value < 0.05) {
+  cat("統計結論：兩組住院天數有顯著差異 (p < 0.05)\n")
+  cat("臨床意義：B 組的平均住院天數比 A 組多約",
+      round(diff(result_summary$mean_los), 1), "天\n")
+} else {
+  cat("統計結論：兩組住院天數無顯著差異 (p >= 0.05)\n")
+  cat("臨床意義：目前證據不足以證明兩種治療在住院天數上有差異\n")
+}
+
+cat("\n")
+cat("=" %>% rep(60) %>% paste(collapse = ""), "\n")
+cat("報告結束\n")
+cat("=" %>% rep(60) %>% paste(collapse = ""), "\n")
+
+sink()  # 關閉 sink，恢復正常輸出
+
+# 確認檔案已產生
+cat("報告已儲存至 report.txt\n")
+cat("檔案大小：", file.info("report.txt")$size, "bytes\n")
+
+# 顯示報告內容預覽
+cat("\n--- 報告內容預覽 ---\n")
+cat(readLines("report.txt", n = 20), sep = "\n")
+cat("...\n")
 ```
 
 ## 任務 22：檢查假設
